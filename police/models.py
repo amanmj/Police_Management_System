@@ -8,7 +8,7 @@ class User_profile(models.Model):
     phone_no=models.IntegerField()
     isPolice=models.IntegerField()
     age=models.IntegerField()
-
+    gender=models.TextField(default="Male")
     def __str__(self):
 		return self.user.username;
 

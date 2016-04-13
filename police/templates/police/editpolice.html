@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Edit Police Details</title>
+<script src="https://code.jquery.com/jquery-2.2.3.js"></script>
+<title>Edit Police Details</title>
 </head>
+
 <body>
 <h1>{{error}}</h1>
 <h1>Edit details for {{user.username}}</h1>
@@ -10,11 +12,21 @@
 
 
 <form method="POST" class="post-form">{% csrf_token %}
+
 <p><label for="id_salary">Salary:</label> <input id="id_salary" name="salary" type="number" value="{{details.salary}}"/></p>
 <p><label for="id_description">Description:</label> <input id="id_description" name="description" rows="10" value="{{details.description}}"/></p>
-<p><label for="id_post">Post:</label> <input id="id_post" maxlength="30" name="post" type="text" value="{{details.post}}"/></p>
-<p><label for="id_rank">Rank:</label> <input id="id_rank" name="rank" type="number" value="{{details.rank}}"/></p>
-
+<p><label for="id_post">Post:</label> 
+<select name="post_police" id="post_police">
+    <option value="Commissioner">Commissioner</option>
+    <option value="Joint Commissioner">Joint Commissioner</option>
+    <option value="Deputy Commissioner">Deputy Commissioner</option>
+    <option value="Assistant Superintendent">Assistant Superintendent</option>
+    <option value="Assistant Superintendent">Assistant Superintendent</option>
+    <option value="Inspector">Inspector</option>
+    <option value="Assistant Inspector">Assistant Inspector</option>
+    <option value="Sub-Inspector">Sub-Inspector</option>
+    <option value="Constable">Police Constable</option>
+</select>
 
 <p><label for="id_house_no">House no:</label> <input id="id_house_no" name="house_no" rows="10" value="{{address.house_no}}"></p>
 <p><label for="id_locality">Locality:</label> <input id="id_locality" name="locality" rows="10" value="{{address.locality}}"></p>
@@ -26,6 +38,13 @@
 <button type="submit" class="save btn btn-default">Save Changes</button>
 
 </form>
-
+{% if post %}
+<script>
+$(document).ready(function (){
+	var temp="{{post}}";
+	$('#post_police').value(temp);
+});
+</script>
+{% endif %}
 </body>
 </html>

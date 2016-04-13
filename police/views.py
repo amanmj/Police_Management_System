@@ -53,6 +53,7 @@ def signup_detail(request):
 				if form.is_valid():
 					temp=form.save(commit=False)
 					temp.user=request.user
+					temp.gender=request.POST.get('gender')
 					temp.isPolice=1
 					temp.save()
 					return redirect('/u/police/'+request.user.username)
@@ -65,6 +66,7 @@ def signup_detail(request):
 					temp=form.save(commit=False)
 					temp.user=request.user
 					temp.isPolice=0
+					temp.gender=request.POST.get('gender')
 					temp.save()
 					return redirect('/u/civilian/'+request.user.username)
 				else:
@@ -109,6 +111,8 @@ def editpolice(request,username):
 		if form1.is_valid() and form2.is_valid():
 			post1=form1.save(commit=False)
 			post1.user=request.user
+			post1.rank=1;
+			post1.post=request.POST.get('post_police')
 			post1.save()
 			post2=form2.save(commit=False)
 			post2.user=request.user
@@ -122,7 +126,8 @@ def editpolice(request,username):
 		if Police.objects.filter(user=request.user).exists() and Address.objects.filter(user=request.user).exists():
 			address=Address.objects.get(user=request.user)
 			details=Police.objects.get(user=request.user)
-			return render(request,'police/editpolice.html',{'details':details,'address':address,'user':request.user})
+			post=details.post
+			return render(request,'police/editpolice.html',{'post':post,'details':details,'address':address,'user':request.user})
 		else:
 			form1=Police_form()
 			form2=Address_form()
@@ -130,7 +135,7 @@ def editpolice(request,username):
 
 
 def editcivilian(request,username):
-	isCriminal=1
+	isCriminal=0
 	if not request.user.is_authenticated():
 		messages.error(request, 'you need to login '+username)
 		return redirect('/u/login')

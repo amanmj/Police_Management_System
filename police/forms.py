@@ -10,7 +10,7 @@ class User_profile_form(forms.ModelForm):
 class Police_form(forms.ModelForm):
 	class Meta:
 		model=Police
-		fields=('salary','description','post','rank')
+		fields=('salary','description')
 
 class Civilian_form(forms.ModelForm):
 	class Meta:
