@@ -7,7 +7,7 @@
 <h1>Civilian Database</h1>
 
 
-<table boder="1">
+<table border=3 frame=hsides rules=columns>
 
 <tr>
 <th>Username</th>
@@ -17,6 +17,7 @@
 <th>Gender</th>
 <th>Age</th>
 <th>Phone Number</th>
+<th>isCriminal</th>
 </tr>
 {% for itr in result %}
 
@@ -29,7 +30,7 @@
 <td>{{itr.gender}}</td>
 <td>{{itr.age}}</td>
 <td>{{itr.phone_no}}</td>
-
+<td>{{itr.locality}}</td>
 </tr>
 
 

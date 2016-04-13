@@ -111,8 +111,28 @@ def editpolice(request,username):
 		if form1.is_valid() and form2.is_valid():
 			post1=form1.save(commit=False)
 			post1.user=request.user
-			post1.rank=1;
-			post1.post=request.POST.get('post_police')
+			temp=request.POST.get('post_police')
+			post1.post=temp
+
+			rank=0
+			if temp=="Commissioner":
+				rank=1
+			elif temp=="Joint Commissioner":
+				rank=2
+			elif temp=="Deputy Commissioner":
+				rank=3
+			elif temp=="Assistant Superintendent":
+				rank=4
+			elif temp=="Inspector":
+				rank=5
+			elif temp=="Assistant Inspector":
+				rank=6
+			elif temp=="Sub-Inspector":
+				rank=7
+			else:
+				rank=8
+
+			post1.rank=rank
 			post1.save()
 			post2=form2.save(commit=False)
 			post2.user=request.user
@@ -211,8 +231,6 @@ def logout_user(request):
 		logout(request)
 	return redirect('/u/login')
 
-
-
 def civiliandatabase(request):
 	if not request.user.is_authenticated():
 		messages.error(request, 'you need to login first with a valid policeman account')
@@ -221,8 +239,6 @@ def civiliandatabase(request):
 		logout(request)
 		messages.error(request, 'you are a civilian and the information you requested is highly confidential which is only available to the police')
 		return redirect('/u/login')
-	if request.method == 'POST':
-		pass
 	else:
-		civilianlist=User_profile.objects.filter(isPolice=0)
+		civilianlist=User_profile.objects.select_related().all()
 		return render(request,'police/civilianlist.html',{'result':civilianlist})
