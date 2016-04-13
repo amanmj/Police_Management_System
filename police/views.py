@@ -210,3 +210,19 @@ def logout_user(request):
 	if request.user.is_authenticated():
 		logout(request)
 	return redirect('/u/login')
+
+
+
+def civiliandatabase(request):
+	if not request.user.is_authenticated():
+		messages.error(request, 'you need to login first with a valid policeman account')
+		return redirect('/u/login')
+	if User_profile.objects.get(user=request.user).isPolice==0:
+		logout(request)
+		messages.error(request, 'you are a civilian and the information you requested is highly confidential which is only available to the police')
+		return redirect('/u/login')
+	if request.method == 'POST':
+		pass
+	else:
+		civilianlist=User_profile.objects.filter(isPolice=0)
+		return render(request,'police/civilianlist.html',{'result':civilianlist})
