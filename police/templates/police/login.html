@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+    <form method="POST" class="post-form">{% csrf_token %}
+    <div class="controls">
+            <input type="text" id="username" name="username" placeholder="Username">
+             <input type="password" name="password" id="password" placeholder="Password">       
+    </div>
+        <button type="submit" class="save btn btn-default">Login</button>
+    </form>
+<p>{{error}}</p>
+{% for i in messages %}
+<p>{{i}}</p>
+{% endfor %}
+</body>
+</html>

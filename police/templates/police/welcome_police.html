@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<h1>Ma Chuda police wale {{user.username}}</h1>
+<p><a href="{% url 'logout' %}">LOGOUT</a></p>
+<p>First Name {{user.first_name}}</p>
+<p>Last Name {{user.last_name}}</p>
+<p>Email ID {{user.email}}</p>
+<p>Umar {{curr_user.age}}</p>
+<br><br>
+
+<p><a href="{% url 'editpolice' username=user.username%}">EDIT Personal Info</a></p>
+{% for i in messages %}
+<p>{{i}}</p>
+{% endfor %}
+</body>
+</html>

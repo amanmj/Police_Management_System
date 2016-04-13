@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Edit Police Details</title>
+</head>
+<body>
+<h1>{{error}}</h1>
+<h1>Edit details for {{user.username}}</h1>
+
+
+
+<form method="POST" class="post-form">{% csrf_token %}
+<p><label for="id_salary">Salary:</label> <input id="id_salary" name="salary" type="number" value="{{details.salary}}"/></p>
+<p><label for="id_description">Description:</label> <input id="id_description" name="description" rows="10" value="{{details.description}}"/></p>
+<p><label for="id_post">Post:</label> <input id="id_post" maxlength="30" name="post" type="text" value="{{details.post}}"/></p>
+<p><label for="id_rank">Rank:</label> <input id="id_rank" name="rank" type="number" value="{{details.rank}}"/></p>
+
+
+<p><label for="id_house_no">House no:</label> <input id="id_house_no" name="house_no" rows="10" value="{{address.house_no}}"></p>
+<p><label for="id_locality">Locality:</label> <input id="id_locality" name="locality" rows="10" value="{{address.locality}}"></p>
+<p><label for="id_city">City:</label> <input cols="40" id="id_city" name="city" rows="10" value="{{address.city}}"></p>
+<p><label for="id_state">State:</label> <input cols="40" id="id_state" name="state" rows="10" value="{{address.state}}"></p>
+<p><label for="id_pin_code">Pin code:</label> <input id="id_pin_code" name="pin_code" type="number" value="{{address.pin_code}}"/></p>
+
+
+<button type="submit" class="save btn btn-default">Save Changes</button>
+
+</form>
+
+</body>
+</html>

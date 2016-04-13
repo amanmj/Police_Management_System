@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<h1>Teri bhains ki aankh civilian {{user.username}}</h1>
+<p><a href="{% url 'logout' %}">LOGOUT</a></p>
+<p>First Name {{user.first_name}}</p>
+<p>Last Name {{user.last_name}}</p>
+<p>Email ID {{user.email}}</p>
+<p>Umar {{curr_user.age}}</p>
+{% for i in messages %}
+<p>{{i}}</p>
+{% endfor %}
+<p><a href="{% url 'editcivilian' username=user.username%}">EDIT INFO</a></p>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<h1>Detail Signup</h1>
+<h3>Bol tu kaun hai bc</h6>
+<form method="POST" class="post-form">{% csrf_token %}
+	<select name="police">
+    	<option value="police">PoliceWala Launda</option>
+	    <option value="civilian">Kejriwal ke jaisa Aam aadmi</option>
+	</select>
+	<br>
+	<tr><th><label for="id_phone_no">Phone no:</label></th><td><input id="id_phone_no" name="phone_no" type="number" /></td></tr>
+<tr><th><label for="id_age">Age:</label></th><td><input id="id_age" name="age" type="number" /></td></tr>
+
+  <button type="submit">Ma behen ek kar</button>
+</form> 
+<div>{{error}}
+</body>
+</html>
