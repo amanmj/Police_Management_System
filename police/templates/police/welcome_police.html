@@ -10,9 +10,13 @@
 <p>Last Name {{user.last_name}}</p>
 <p>Email ID {{user.email}}</p>
 <p>Umar {{curr_user.age}}</p>
-<br><br>
-
 <p><a href="{% url 'editpolice' username=user.username%}">EDIT Personal Info</a></p>
+
+
+
+
+
+
 {% for i in messages %}
 <p>{{i}}</p>
 {% endfor %}
