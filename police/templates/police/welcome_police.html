@@ -4,18 +4,18 @@
 	<title></title>
 </head>
 <body>
-<h1>Ma Chuda police wale {{user.username}}</h1>
+<h1>police wale {{user.username}}</h1>
 <p><a href="{% url 'logout' %}">LOGOUT</a></p>
-<p>First Name {{user.first_name}}</p>
-<p>Last Name {{user.last_name}}</p>
-<p>Email ID {{user.email}}</p>
-<p>Umar {{curr_user.age}}</p>
+<p>First Name :{{user.first_name}}</p>
+<p>Last Name :{{user.last_name}}</p>
+<p>Email ID :{{user.email}}</p>
+<p>Age :{{curr_user.age}}</p>
 <p><a href="{% url 'editpolice' username=user.username%}">EDIT Personal Info</a></p>
 
 
 <div>
 <p><a href="{% url 'civiliandatabase' %}">VIEW USER DATABASE</a>
-<p><a href="">VIEW CRIMINAL DATABASE</a>
+<p><a href="{% url 'criminaldatabase' %}">VIEW CRIMINAL DATABASE</a>
 </div>
 
 

@@ -35,8 +35,8 @@ class Police(models.Model):
 class Civilian(models.Model):
 	user=models.ForeignKey('auth.User',primary_key=True)
 	isCriminal=models.IntegerField()
-	salary=models.IntegerField()
-	job=models.TextField()
+	salary=models.IntegerField(default=0)
+	job=models.TextField(default="None")
 
 
 
