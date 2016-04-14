@@ -13,4 +13,5 @@ urlpatterns = [
     url(r'^logout/$',views.logout_user,name='logout'),
     url(r'^civilian_database/$',views.civiliandatabase,name='civiliandatabase'),
     url(r'^criminal_database/$',views.criminaldatabase,name='criminaldatabase'),
+    url(r'^detail/civilian/(?P<username>\w+)$',views.civiliandetail,name='civiliandetail'),
 ]

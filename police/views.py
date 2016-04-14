@@ -240,7 +240,7 @@ def civiliandatabase(request):
 		messages.error(request, 'you are a civilian and the information you requested is highly confidential which is only available to the police')
 		return redirect('/u/login')
 	else:
-		civilianlist=User_profile.objects.select_related().filter(isPolice=0).order_by('age')
+		civilianlist=User_profile.objects.filter(isPolice=0).order_by('age')
 		return render(request,'police/civilianlist.html',{'result':civilianlist})
 
 def criminaldatabase(request):
@@ -254,3 +254,19 @@ def criminaldatabase(request):
 	else:
 		criminallist=Civilian.objects.select_related().filter(isCriminal=1)
 		return render(request,'police/criminallist.html',{'result':criminallist})
+
+def civiliandetail(request,username):
+	if not request.user.is_authenticated():
+		messages.error(request, 'you need to login first with a valid policeman account')
+		return redirect('/u/login')
+	if User_profile.objects.get(user=request.user).isPolice==0:
+		logout(request)
+		messages.error(request, 'you are a civilian and the information you requested is highly confidential which is only available to the police')
+		return redirect('/u/login')
+	requested_user=User.objects.get(username=username)
+	query=Civilian.objects.get(user=requested_user)
+	if User.objects.filter(username=username).exists():
+		return render(request,'police/civiliandetail.html',{'result':query})
+	else:
+		error='requested user not found'
+		return render(request,'police/civiliandetail.html',{'error':error})

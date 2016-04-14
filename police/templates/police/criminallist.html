@@ -20,7 +20,7 @@
 {% for itr in result %}
 
 <tr>
-<td><a href="#">{{itr.user.username}}</a></td>
+<td><a href="{% url 'civiliandetail' username=itr.user.username%}">{{itr.user.username}}</a></td>
 <td>{{itr.user.first_name}}</td>
 <td>{{itr.user.last_name}}</td>
 <td>{{itr.user.email}}</td>
