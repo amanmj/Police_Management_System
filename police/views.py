@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
-from django.db import IntegrityError
+from django.db import IntegrityError,connection
 from django.http import HttpResponse
 from django.contrib.auth import authenticate,login,logout
 from .models import User_profile,Police,Address,Civilian
@@ -240,5 +240,5 @@ def civiliandatabase(request):
 		messages.error(request, 'you are a civilian and the information you requested is highly confidential which is only available to the police')
 		return redirect('/u/login')
 	else:
-		civilianlist=User_profile.objects.select_related().all()
+		civilianlist=User_profile.objects.select_related().filter(isPolice=0).order_by('age')
 		return render(request,'police/civilianlist.html',{'result':civilianlist})

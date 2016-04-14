@@ -17,20 +17,18 @@
 <th>Gender</th>
 <th>Age</th>
 <th>Phone Number</th>
-<th>isCriminal</th>
 </tr>
 {% for itr in result %}
 
 <tr>
 
-<td>{{itr.user.username}}</td>
+<td><a href="#">{{itr.user.username}}</a></td>
 <td>{{itr.user.first_name}}</td>
 <td>{{itr.user.last_name}}</td>
 <td>{{itr.user.email}}</td>
 <td>{{itr.gender}}</td>
 <td>{{itr.age}}</td>
 <td>{{itr.phone_no}}</td>
-<td>{{itr.locality}}</td>
 </tr>
 
 
