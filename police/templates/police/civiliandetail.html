@@ -5,6 +5,19 @@
 </head>
 <body>
 <h1>{{error}}</h1>
-<h1>Detail of Civilian {{result.job}}</h1>
+<h1>Detail of Civilian 	{{user.username}}</h1>
+<p>Username : {{user.username}}</p>
+<p>Name: {{user.first_name}} {{user.last_name}}</p>
+<p>Email ID : {{user.email}}</p>
+<p>Phone No. : {{userprofile.phone_no}}</p>
+<p>Age: {{userprofile.age}}</p>
+<p>Gender: {{userprofile.gender}}</p>
+
+{% if civilian %}
+<p>Address : <br>{{address.house_no}} , <br> {{address.locality}} ,<br> {{address.city}}, <br>{{address.state}}, <br>PINCODE:{{address.pin_code}}</p>
+<p>Job:{{civilian.job}}</p>
+<p>Salary:{{civilian.salary}} Rs per month</p>
+{% endif %}
+
 </body>
 </html>

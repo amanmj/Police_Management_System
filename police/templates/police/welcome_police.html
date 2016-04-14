@@ -20,6 +20,18 @@
 
 
 
+<h3>Search for a user</h3>
+ <form method="POST" class="post-form">{% csrf_token %}
+ <input type="text" id="username" name="username" placeholder="Username">
+ <button type="submit" value="civilian" name="civilian">Search</button>
+ </form>
+
+<h3>Search for police</h3>
+ <form method="POST" class="post-form">{% csrf_token %}
+ <input type="text" id="username" name="username" placeholder="Username">
+ <button type="submit" value="police" name="police">Search</button>
+ </form> 
+
 {% for i in messages %}
 <p>{{i}}</p>
 {% endfor %}

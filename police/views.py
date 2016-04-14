@@ -90,8 +90,25 @@ def welcomepolice(request,username):
 		logout(request)
 		messages.error(request, 'you are a civilian and you cannot view a policeman\'s account')
 		return redirect('/u/login')
-	curr_user=User_profile.objects.get(user=request.user)
-	return render(request,'police/welcome_police.html',{'user':request.user,'curr_user':curr_user})
+	if request.method=='POST' and request.POST.get('civilian')=="civilian":
+		get_user_name=request.POST.get('username')
+		query=User.objects.filter(username=get_user_name)
+		if query.exists():
+			return redirect('/u/detail/civilian/'+get_user_name)
+		else:
+			messages.error(request, 'no user with the '+get_user_name+' was found')
+			return redirect('/u/police/'+username)
+	if request.method=='POST' and request.POST.get('police')=="police":
+		get_user_name=request.POST.get('username')
+		query=User.objects.filter(username=get_user_name)
+		if query.exists():
+			return redirect('/u/detail/police/'+get_user_name)
+		else:
+			messages.error(request, 'no user with the '+get_user_name+' was found')
+			return redirect('/u/police/'+username)
+	else:
+		curr_user=User_profile.objects.get(user=request.user)
+		return render(request,'police/welcome_police.html',{'user':request.user,'curr_user':curr_user})
 
 def editpolice(request,username):
 	if not request.user.is_authenticated():
@@ -264,9 +281,16 @@ def civiliandetail(request,username):
 		messages.error(request, 'you are a civilian and the information you requested is highly confidential which is only available to the police')
 		return redirect('/u/login')
 	requested_user=User.objects.filter(username=username)
-	query=Civilian.objects.get(user=requested_user[0])
-	if requested_user.exists():
-		return render(request,'police/civiliandetail.html',{'result':query})
+	query=Civilian.objects.filter(user=requested_user[0])
+	if requested_user.exists() and query.exists():
+		address=Address.objects.get(user=requested_user[0])
+		userprofile=User_profile.objects.get(user=requested_user[0])
+		return render(request,'police/civiliandetail.html',{'civilian':query[0],'address':address,'userprofile':userprofile,'user':requested_user[0]})
 	else:
-		error='requested user not found'
-		return render(request,'police/civiliandetail.html',{'error':error})
+		if requested_user.exists():
+			userprofile=User_profile.objects.get(user=requested_user[0])
+			return render(request,'police/civiliandetail.html',{'user':requested_user[0],'userprofile':userprofile})
+		else:
+			error='requested user not found'
+			return render(request,'police/civiliandetail.html',{'error':error})
+		
