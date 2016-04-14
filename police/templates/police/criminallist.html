@@ -17,6 +17,9 @@
 <th>Job</th>
 <th>Salary</th>
 </tr>
+{% if result %}
+
+
 {% for itr in result %}
 
 <tr>
@@ -29,6 +32,10 @@
 </tr>
 {% endfor %}
 
+
+{% else %}
+<h1>No users found</h1>
+{% endif %}
 </table>
 </body>
 </html>

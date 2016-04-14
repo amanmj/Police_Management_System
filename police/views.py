@@ -92,20 +92,23 @@ def welcomepolice(request,username):
 		return redirect('/u/login')
 	if request.method=='POST' and request.POST.get('civilian')=="civilian":
 		get_user_name=request.POST.get('username')
-		query=User.objects.filter(username=get_user_name)
-		if query.exists():
-			return redirect('/u/detail/civilian/'+get_user_name)
-		else:
-			messages.error(request, 'no user with the '+get_user_name+' was found')
-			return redirect('/u/police/'+username)
+		requested_user=User.objects.filter(username=get_user_name)
+		if requested_user.exists():
+			query=User_profile.objects.filter(user=requested_user[0])
+			if query.exists() and query[0].isPolice==0:
+				return redirect('/u/detail/civilian/'+get_user_name)
+		messages.error(request, 'no user with the '+get_user_name+' was found')
+		return redirect('/u/police/'+username)
+
 	if request.method=='POST' and request.POST.get('police')=="police":
 		get_user_name=request.POST.get('username')
-		query=User.objects.filter(username=get_user_name)
-		if query.exists():
-			return redirect('/u/detail/police/'+get_user_name)
-		else:
-			messages.error(request, 'no user with the '+get_user_name+' was found')
-			return redirect('/u/police/'+username)
+		requested_user=User.objects.filter(username=get_user_name)
+		if requested_user.exists():
+			query=User_profile.objects.filter(user=requested_user[0])
+			if query.exists() and query[0].isPolice==1:
+				return redirect('/u/detail/police/'+get_user_name)
+		messages.error(request, 'no user with the '+get_user_name+' was found')
+		return redirect('/u/police/'+username)
 	else:
 		curr_user=User_profile.objects.get(user=request.user)
 		return render(request,'police/welcome_police.html',{'user':request.user,'curr_user':curr_user})

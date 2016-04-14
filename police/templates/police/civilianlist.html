@@ -18,6 +18,8 @@
 <th>Age</th>
 <th>Phone Number</th>
 </tr>
+
+{% if result %}
 {% for itr in result %}
 
 <tr>
@@ -30,9 +32,13 @@
 <td>{{itr.age}}</td>
 <td>{{itr.phone_no}}</td>
 </tr>
-
-
 {% endfor %}
+{% else %}
+<h1>No users found</h1>
+
+
+{% endif %}
+
 
 </table>
 </body>
