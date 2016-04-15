@@ -9,6 +9,4 @@
 3. Make a search by police station add it to user as well police page
 4. Show a page of police stations table when user clicks on it show policemen that are present in them and their details in a table
 5. Make edit page for detail police after making police station model
-
-make criminal user
-
+6. Improve criminal model usage

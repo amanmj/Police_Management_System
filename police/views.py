@@ -298,16 +298,39 @@ def civiliandetail(request,username):
 		messages.error(request, 'you are a civilian and the information you requested is highly confidential which is only available to the police')
 		return redirect('/u/login')
 
-	requested_user=User.objects.filter(username=username)
-	userprofile=User_profile.objects.get(user=requested_user[0])
-	query1=Civilian.objects.filter(user=requested_user[0])
-
-	if requested_user.exists() and query1.exists() and userprofile.isPolice==0:
-		address=Address.objects.get(user=requested_user[0])
-		return render(request,'police/civiliandetail.html',{'civilian':query1[0],'address':address,'userprofile':userprofile,'user':requested_user[0]})
+	if request.method=='POST':
+		form=Criminal_Record_form(request.POST)
+		if form.is_valid:
+			criminalrecord=form.save(commit=False)
+			requested_user=User.objects.get(username=username)
+			criminalrecord.user=requested_user
+			criminalrecord.save()
+			civilian=Civilian.objects.filter(user=requested_user)
+			if civilian.exists():
+				civilian=Civilian.objects.get(user=requested_user)
+				civilian.isCriminal=1
+				civilian.save()
+			else:
+				temp=Civilian(user=requested_user,isCriminal=1,salary=0,job="none")
+				temp.save()
+			messages.success(request,'successfully accused of crime')
+			return redirect('/u/police/'+request.user.username)
+		else:
+			messages.error(request,'could not save your details... please try again')
+			return redirect('/u/police/'+request.user.username)
 	else:
-		messages.error(request, 'no such user found')
-		return redirect('/u/police/'+request.user.username)
+		requested_user=User.objects.filter(username=username)
+		userprofile=User_profile.objects.get(user=requested_user[0])
+		query1=Civilian.objects.filter(user=requested_user[0])
+
+		if requested_user.exists() and query1.exists() and userprofile.isPolice==0:
+			address=Address.objects.get(user=requested_user[0])
+			criminal=Criminal_Record.objects.filter(user=requested_user[0])
+			form=Criminal_Record_form()
+			return render(request,'police/civiliandetail.html',{'criminal':criminal,'civilian':query1[0],'address':address,'userprofile':userprofile,'user':requested_user[0]})
+		else:
+			messages.error(request, 'no such user found')
+			return redirect('/u/police/'+request.user.username)
 
 def policedetail(request,username):
 	get_user_name=username
