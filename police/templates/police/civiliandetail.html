@@ -1,8 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<title>Civilian Detail</title>
 </head>
+<script>
+function show(){
+but=document.getElementById("criminal");
+butt=document.getElementById("but");
+but.style.display="block";
+butt.style.display="none";
+}
+</script>
+
 <body>
 <h1>{{error}}</h1>
 <h1>Detail of Civilian 	{{user.username}}</h1>
@@ -18,6 +27,27 @@
 <p>Job:{{civilian.job}}</p>
 <p>Salary:{{civilian.salary}} Rs per month</p>
 {% endif %}
+
+<h2>Criminal Status : </h2>
+
+{% if civilian.isCriminal %}
+<h3>Yes he is a criminal</h3>
+{% else %}
+<h3>None</h3>
+
+<button onclick="show()" id="but">Assign Crime</button>
+
+<div id="criminal" style="display:none">
+<form method="POST" class="post-form">{% csrf_token %}
+    <input type="text" id="username" name="username" placeholder="Username">
+    <input type="password" name="password" id="password" placeholder="Password">       
+    <button type="submit">Assign Crime</button>
+</form>
+</div>
+
+
+{% endif %}
+
 
 </body>
 </html>

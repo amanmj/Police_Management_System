@@ -38,6 +38,13 @@ class Civilian(models.Model):
 	salary=models.IntegerField(default=0)
 	job=models.TextField(default="None")
 
+class Criminal_Record(models.Model):
+	user=models.ForeignKey('auth.User',primary_key=True)
+	jail=models.IntegerField(default=0)
+	description=models.TextField()
+	section=models.TextField()
+	fine=models.IntegerField(default=0)
+
 
 
 

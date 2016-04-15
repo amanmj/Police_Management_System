@@ -3,8 +3,8 @@ from django.contrib.auth.models import User
 from django.db import IntegrityError,connection
 from django.http import HttpResponse
 from django.contrib.auth import authenticate,login,logout
-from .models import User_profile,Police,Address,Civilian
-from .forms import User_profile_form,Police_form,Address_form,Civilian_form
+from .models import User_profile,Police,Address,Civilian,Criminal_Record
+from .forms import User_profile_form,Police_form,Address_form,Civilian_form,Criminal_Record_form
 from django.contrib import messages
 from django.contrib.messages import get_messages
 
@@ -297,19 +297,17 @@ def civiliandetail(request,username):
 		logout(request)
 		messages.error(request, 'you are a civilian and the information you requested is highly confidential which is only available to the police')
 		return redirect('/u/login')
+
 	requested_user=User.objects.filter(username=username)
-	query=Civilian.objects.filter(user=requested_user[0])
-	if requested_user.exists() and query.exists():
+	userprofile=User_profile.objects.get(user=requested_user[0])
+	query1=Civilian.objects.filter(user=requested_user[0])
+
+	if requested_user.exists() and query1.exists() and userprofile.isPolice==0:
 		address=Address.objects.get(user=requested_user[0])
-		userprofile=User_profile.objects.get(user=requested_user[0])
-		return render(request,'police/civiliandetail.html',{'civilian':query[0],'address':address,'userprofile':userprofile,'user':requested_user[0]})
+		return render(request,'police/civiliandetail.html',{'civilian':query1[0],'address':address,'userprofile':userprofile,'user':requested_user[0]})
 	else:
-		if requested_user.exists():
-			userprofile=User_profile.objects.get(user=requested_user[0])
-			return render(request,'police/civiliandetail.html',{'user':requested_user[0],'userprofile':userprofile})
-		else:
-			error='requested user not found'
-			return render(request,'police/civiliandetail.html',{'error':error})
+		messages.error(request, 'no such user found')
+		return redirect('/u/police/'+request.user.username)
 
 def policedetail(request,username):
 	get_user_name=username
@@ -317,14 +315,16 @@ def policedetail(request,username):
 	if requested_user.exists():
 		query=User_profile.objects.filter(user=requested_user[0])
 		if query.exists() and query[0].isPolice==1:
-			policeman=Police.objects.filter(user=requested_user[0])
-			if not policeman.exists():
+			police=Police.objects.filter(user=requested_user[0])
+			if not police.exists():
 				messages.error(request,'the user\'s details are not yet filled up')
-				return redirect('/u/police/'+username)
+				return redirect('/u/police/'+request.user.username)
 			curr_police=Police.objects.filter(user=request.user)
 			if curr_police.exists():
-				if policeman[0].rank >= curr_police[0].rank:
-					return HttpResponse("theek hai")
+				if police[0].rank >= curr_police[0].rank:
+					user=User.objects.filter(username=username)
+					address=Address.objects.filter(user=user)
+					return render(request,'police/policedetail.html',{'user':user[0],'address':address[0],'userprofile':query[0],'police':police[0]})
 				else:
 					messages.error(request,'you cannot view your senior\'s account')
 					return redirect('/u/police/'+request.user.username)
