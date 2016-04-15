@@ -27,8 +27,8 @@ class Police(models.Model):
 	user=models.ForeignKey('auth.User',primary_key=True)
 	salary=models.IntegerField()
 	description=models.TextField()
-	post=models.CharField(max_length=30)
-	rank=models.IntegerField()
+	post=models.CharField(max_length=30,default="Inspector")
+	rank=models.IntegerField(default=5)
 	def __str__(self):
 		return self.user.username;
 

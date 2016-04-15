@@ -106,8 +106,22 @@ def welcomepolice(request,username):
 		if requested_user.exists():
 			query=User_profile.objects.filter(user=requested_user[0])
 			if query.exists() and query[0].isPolice==1:
-				return redirect('/u/detail/police/'+get_user_name)
-		messages.error(request, 'no user with the '+get_user_name+' was found')
+				policeman=Police.objects.filter(user=requested_user[0])
+				if not policeman.exists():
+					messages.error(request,'the user\'s details are not yet filled up')
+					return redirect('/u/police/'+username)
+				curr_police=Police.objects.filter(user=request.user)
+				if curr_police.exists():
+					if policeman[0].rank >= curr_police[0].rank:
+						messages.success(request,'detailpolice')
+						return redirect('/u/detail/police/'+get_user_name)
+					else:
+						messages.error(request,'you cannot view your senior\'s account')
+						return redirect('/u/police/'+username)
+				else:
+					messages.error(request,'fill up your details first')
+					return redirect('/u/police/'+username)
+		messages.error(request, 'no police with the username '+get_user_name+' was found')
 		return redirect('/u/police/'+username)
 	else:
 		curr_user=User_profile.objects.get(user=request.user)
@@ -296,4 +310,12 @@ def civiliandetail(request,username):
 		else:
 			error='requested user not found'
 			return render(request,'police/civiliandetail.html',{'error':error})
+
+def policedetail(request,username):
+	message = response.context.get('messages')[0]
+	if message=="detailpolice":
+		return HttpResponse("sahi h beta")
+	else:
+		return HttpResponse("gaand mara")
+
 		
