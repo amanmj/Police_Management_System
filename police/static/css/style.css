@@ -9,26 +9,46 @@ body{
 HOME PAGE
 **********************************************/
 #mainImage{ 
-	  background: url(../images/bg1.jpg) no-repeat center center fixed;
+	  background: url(../images/bg.jpg) no-repeat center center fixed;
 	  -webkit-background-size: cover;
 	  -moz-background-size: cover;
 	  -o-background-size: cover;
 	  background-size: cover;
-	  height: calc(100vh - 60px); 
+	  height: calc(35vh); 
 }
 
 #getStarted{
-	width:200px;
+	width:250px;
 	height:50px;
 	position:absolute;
-	top:65%;
+	top:25%;
 	line-height: 50px;
-	border:3px solid #000;
-	left:50%;
-	color:#000;
-	font-size:25px;
+	border:3px solid #fff;
+	left:45%;
+	color:#fff;
+	font-size:14px;
+	font-weight:700;
 	text-align:center;
 	margin-left:-100px;
+}
+
+#locationInput{
+	background:transparent;
+	border:none;
+	width:100%;
+	height:100%;
+	position:absolute;
+	left:0;
+	top:0;
+	padding-left:10px;
+	display:none;
+}
+
+#searchLocation{
+	position:absolute;
+	display:none;
+	left:105%;
+	top:10%;
 }
 
 #getStarted:hover{

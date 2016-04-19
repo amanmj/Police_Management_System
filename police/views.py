@@ -11,7 +11,7 @@ from django.utils import timezone
 import json
 
 def index(request):
-	return redirect('police.views.loginpage')
+	return render(request,'police/index.html')
 
 def signuppage(request):
 	if request.user.is_authenticated():
@@ -439,3 +439,17 @@ def addComplaint(request,police_username):
 			return HttpResponse(json.dumps({'message':'Successfully posted your complaint.','complaint':{'description':x.description,'user':request.user.username},'success':True}));
 		else:
 			return HttpResponse(json.dumps({'message':'You must be logged in to submit your complaint.','success':False}));
+
+def searchPoliceStations(request):
+	if request.method=='GET':
+		location=request.GET.get('location')
+		print location
+		if(location=='all'):
+			stations=Station.objects.all()
+		else:
+			stations=Station.objects.filter(locality__icontains=location)
+		if stations.exists():
+			stations=list(stations.values())
+			return HttpResponse(json.dumps({'stations':stations,'found':True}))
+		else:
+			return HttpResponse(json.dumps({'found':False}))

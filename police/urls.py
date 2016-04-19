@@ -16,8 +16,11 @@ urlpatterns = [
     url(r'^detail/civilian/(?P<username>\w+)$',views.civiliandetail,name='civiliandetail'),
     url(r'^detail/police/(?P<username>\w+)$',views.policedetail,name='policedetail'),
 
-    #POLICE STATION
+    #POLICE-STATION
     url(r'^station/(?P<slug>[\w-]+)',views.policestation,name="policestation"),
     url(r'^addReview/(?P<slug>[\w-]+)',views.addReview,name="addReview"),
     url(r'^addComplaint/(?P<police_username>\w+)',views.addComplaint,name="addComplaint"),
+
+    #HOME-PAGE
+    url(r'^searchPoliceStations',views.searchPoliceStations,name="searchPoliceStations"),
 ]

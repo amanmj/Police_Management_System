@@ -1,0 +1,100 @@
+{% extends "police/partials/layout.html" %}
+{% block style_block %}
+{% endblock %}
+{% block content %}
+<div class="ui ab container" id="mainImage">
+  <div class="content">
+    <div id="getStarted">
+    	<span id="enterLocation">ENTER YOUR LOCATION</span>
+    	<input id="locationInput" type="text">
+    	<button class="circular inverted  ui icon button" id="searchLocation">
+    	  <i class="icon search"></i>
+    	</button>
+    </div>
+
+
+  </div>
+</div>
+<div class="ui container">
+	<div class="ui header centered" style="padding-top:20px;">List of Police stations</div>
+<!-- 	<div class="policeStations">
+		
+	</div> -->
+	<div class="ui cards centered" id="policeStations">
+	</div>
+</div>
+
+<script type="jquery/template-x" id="stationTemplate">
+	<div class="ab card">
+	  <div class="content">
+	    <a class="header"></a>
+	    <div class="meta"></div>
+	    <div class="description">
+	    </div>
+	  </div>
+	</div>
+</script>
+{% endblock %}
+
+{% block js_footer %}
+<script type="text/javascript">
+	function getStation(location){
+		$.ajax({
+		  url:'/searchPoliceStations',
+		  type:"GET",
+		  dataType:'json',
+		  data:{'location':location},
+		  success:function(data){
+		    console.log(data.stations);
+		    $('#policeStations').html('');
+		    var x=$('#stationTemplate').html();
+		    if(data.found===true){	    	
+			    data.stations.forEach(function(station){
+			    	console.log(station.name);
+			    	stationTemplate=$(x);
+			    	stationTemplate.find('.header').attr('href','/station/'+station.slug).html(station.name);
+			    	stationTemplate.find('.meta').html(station.locality);
+			    	stationTemplate.find('.description').html(station.city+", "+station.state);
+			    	$('#policeStations').append(stationTemplate);
+			    });
+		    }
+		    else{
+		    	$('#policeStations').html('No police station was found for your query')
+		    }
+		  }
+		});
+	}
+	$(document).ready(function(){
+
+		$('#getStarted').on('click',function(){
+			console.log('yolo');
+			$('#locationInput').show().focus();
+			$('#searchLocation').show();
+			$('#enterLocation').hide();
+		});
+		$('body').click(function(){
+			if($('#locationInput').val()===''){
+				$('#locationInput').hide();
+				$('#searchLocation').hide();
+				$('#enterLocation').show();
+			}
+		});
+		$('#mainImage').click(function(event){
+			event.stopPropagation();
+		});
+
+		getStation('all');
+
+
+
+	    $('#searchLocation').on('click',function(){
+	    	var location=$('#locationInput').val();
+	    	if(location==='')
+	    		$.amaran({'message':'Enter something to search'});
+	    	else
+	    		getStation(location);
+	    });
+	});
+
+</script>
+{% endblock %}
