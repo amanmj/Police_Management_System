@@ -1,0 +1,360 @@
+function extractCss(){
+	var elem=$('.selected-area');
+	var x={};
+	x.border={};
+	x.fontSize=elem.css('font-size');
+	x.border.width=elem.css('border-width');
+	x.border.style=elem.css('border-style');
+	x.border.color=elem.css('border-color');
+	x.textAlign=elem.css('text-align');
+	x.background=elem.css('background');
+	return x;
+}
+
+var selectedAreaCss={};
+
+function setBorderSettings(){
+	$('.borderWidthSetting').val(selectedAreaCss.border.width.replace(/[^-\d\.]/g, ''));
+	
+	$('.borderStyleDropdown').dropdown('set selected',selectedAreaCss.border.style);
+	$('.borderStyleDropdown').dropdown({onChange:function(value,text){
+		$('.selected-area').css('border-style',value);
+	}});
+	// $('.borderStyleDropdown').change(function(e){
+	// 	var selectedStyle=$('.borderStyleDropdown').dropdown('get value');
+	// 	$('.selected-area').css('border-style',selectedStyle);
+	// });
+	$('.borderWidthSetting').change(function(e){ 
+		$('.selected-area').css('border-width',this.value+'px');
+		// console.log($('.selected-area').css('border-width'));
+	});
+}
+
+String.prototype.nl2br = function()
+{
+    return this.replace(/\n/g, "<br>");
+};
+
+
+$(document).ready(function(){
+
+	var selectedAreaCss={};
+
+	// semantic-ui-initialize
+	$('.ui.dropdown').dropdown();
+
+	var docElem = window.document.documentElement,
+		transEndEventNames = { 'WebkitTransition': 'webkitTransitionEnd', 'MozTransition': 'transitionend', 'OTransition': 'oTransitionEnd', 'msTransition': 'MSTransitionEnd', 'transition': 'transitionend' },
+		transEndEventName = transEndEventNames[ Modernizr.prefixed( 'transition' ) ];
+
+	function scrollX() { return window.pageXOffset || docElem.scrollLeft; }
+	function scrollY() { return window.pageYOffset || docElem.scrollTop; }
+	function getOffset(el) {
+		var offset = el.getBoundingClientRect();
+		return { top : offset.top + scrollY(), left : offset.left + scrollX() };
+	}
+
+	function dragMoveListener(event){
+		var target=event.target,
+		x=(parseFloat(target.getAttribute('data-x'))||0)+event.dx;
+		y=(parseFloat(target.getAttribute('data-y'))||0)+event.dy;
+
+		target.style.transform=target.style.webkitTransform='translate('+x+'px, '+y+'px)';
+		target.style.zIndex=10000;
+
+		target.setAttribute('data-x',x);
+		target.setAttribute('data-y',y);
+	}
+
+	function revertDraggable(el) {
+		el.style.transform = el.style.webkitTransform = 'none';
+		el.style.zIndex = 1;
+		el.setAttribute('data-x', 0);
+		el.setAttribute('data-y', 0);
+	}
+
+	function paintArea(ev, el, color) {
+		var type = 'area';
+		if(classie.has(el, 'paint-area--text')) {
+			type = 'text';
+		}
+
+		if( type === 'area' ) {
+			// create SVG element
+			var dummy = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+			dummy.setAttributeNS(null, 'version', '1.1');
+			dummy.setAttributeNS(null, 'width', '100%');
+			dummy.setAttributeNS(null, 'height', '100%');
+			dummy.setAttributeNS(null, 'class', 'paint');
+
+			var g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+			g.setAttributeNS(null, 'transform', 'translate(' + Number(ev.pageX - getOffset(el).left) + ', ' + Number(ev.pageY - getOffset(el).top) + ')');
+
+			var circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+			circle.setAttributeNS(null, 'cx', 0);
+			circle.setAttributeNS(null, 'cy', 0);
+			circle.setAttributeNS(null, 'r', Math.sqrt(Math.pow(el.offsetWidth,2) + Math.pow(el.offsetHeight,2)));
+			circle.setAttributeNS(null, 'fill', color);
+
+			dummy.appendChild(g);
+			g.appendChild(circle);
+			el.appendChild(dummy);
+		}
+
+		setTimeout(function() {
+			classie.add(el, 'paint--active');
+
+			if( type === 'text' ) {
+				el.style.color = color;
+				var onEndTransCallbackFn = function(ev) {
+					if( ev.target != this ) return;
+					this.removeEventListener( transEndEventName, onEndTransCallbackFn );
+					classie.remove(el, 'paint--active');
+				};
+
+				el.addEventListener(transEndEventName, onEndTransCallbackFn);
+			}
+			else {
+				var onEndTransCallbackFn = function(ev) {
+					if( ev.target != this || ev.propertyName === 'fill-opacity' ) return;
+					this.removeEventListener(transEndEventName, onEndTransCallbackFn);
+					// set the color
+					el.style.backgroundColor = color;
+					// remove SVG element
+					el.removeChild(dummy);
+
+					setTimeout(function() { classie.remove(el, 'paint--active'); }, 25);
+				};
+
+				circle.addEventListener(transEndEventName, onEndTransCallbackFn);
+			}
+		}, 25);
+	}
+	function setBorderSettings(){
+		$('.borderWidthSetting').val(selectedAreaCss.border.width.replace(/[^-\d\.]/g, ''));
+		
+		$('.borderStyleDropdown').dropdown('set selected',selectedAreaCss.border.style);
+		$('.borderStyleDropdown').dropdown({onChange:function(value,text){
+			$('.selected-area').css('border-style',value);
+		}});
+		// $('.borderStyleDropdown').change(function(e){
+		// 	var selectedStyle=$('.borderStyleDropdown').dropdown('get value');
+		// 	$('.selected-area').css('border-style',selectedStyle);
+		// });
+		$('.borderWidthSetting').change(function(e){ 
+			$('.selected-area').css('border-width',this.value+'px');
+			// console.log($('.selected-area').css('border-width'));
+		});
+	}
+	function init(){
+
+		//Sidebar Buttons-Settings and components
+		var dataVal=$('.editorButtons>div.ui.button.activeButton').data('value');
+		$('.editorButtons>div.ui.button.activeButton').removeClass('inverted basic').siblings('.ui.button').removeClass('activeButton').addClass('inverted basic');
+		$(".sidebarMainDiv[data-value='"+dataVal+"']").removeClass('hideIt').addClass('showIt').siblings('.sidebarMainDiv').removeClass('showIt').addClass('hideIt');
+	
+		// target elements with the "drag-element" class
+		interact('.drag-element').draggable({
+			// enable inertial throwing
+			inertia: true,
+			// call this function on every dragmove event
+			onmove: dragMoveListener,
+			onend: function (event) {
+				if(!classie.has(event.target, 'drag-element--dropped') && !classie.has(event.target, 'drag-element--dropped-text')) {
+					revertDraggable(event.target);
+				}
+			}
+		});
+
+		interact('.draggable').draggable({
+			intertia:false,
+			onmove:dragMoveListener,
+			onend:function(event){
+				console.log('hello');
+			}
+		});
+
+		// enable draggables to be dropped into this
+		interact('.paint-area').dropzone({
+			// only accept elements matching this CSS selector
+			accept: '.drag-element',
+			// Require a 75% element overlap for a drop to be possible
+			overlap: 0.75,
+			ondragenter: function (event) {
+				classie.add(event.target, 'paint-area--highlight');
+			},
+			ondragleave: function (event) {
+				classie.remove(event.target, 'paint-area--highlight');
+			},
+			ondrop: function (event) {
+				var type = 'area';
+				if(classie.has(event.target, 'paint-area--text')) {
+					type = 'text';
+				}
+
+				var draggableElement = event.relatedTarget;
+
+				classie.add(draggableElement, type === 'text' ? 'drag-element--dropped-text' : 'drag-element--dropped');
+
+				var onEndTransCallbackFn = function(ev) {
+					this.removeEventListener( transEndEventName, onEndTransCallbackFn );
+					if( type === 'area' ) {
+						paintArea(event.dragEvent, event.target, draggableElement.getAttribute('data-color'));
+					}
+					setTimeout(function() {
+						revertDraggable(draggableElement);
+						classie.remove(draggableElement, type === 'text' ? 'drag-element--dropped-text' : 'drag-element--dropped');
+					}, type === 'text' ? 0 : 250);
+				};
+				if( type === 'text' ) {
+					paintArea(event.dragEvent, event.target, draggableElement.getAttribute('data-color'));
+				}
+				draggableElement.querySelector('.drop').addEventListener(transEndEventName, onEndTransCallbackFn);
+			},
+			ondropdeactivate: function (event) {
+				// remove active dropzone feedback
+				classie.remove(event.target, 'paint-area--highlight');
+			}
+		});
+		
+	}
+
+	function editSelectedTextArea(){
+		var divText=$('.edit-area--text.selected-area').html().trim().replace(/(<br>)|(<br \/>)|(<p>)|(<\/p>)/g, "\n");
+		var editableText=$('<textarea class="edit--text---textbox"></textarea>');
+		editableText.val(divText);
+		$('.selected-area.edit-area--text').html(editableText);
+		editableText.focus();	
+		$('.edit-text-button').off();
+		editableText.blur(editableTextBlurred);
+	}
+	function editableTextBlurred(){
+		var divVal=$(this).val().nl2br();
+		if(divVal===""||divVal===null)
+			$('.selected-area.edit-area--text').remove();
+		else
+			$('.selected-area.edit-area--text').html(divVal);
+	}
+	function fontSizeChange(target){
+		var elem=$('.selected-area');
+		var incordec=$(target).data('fontsize');
+		if(incordec==="increase"){
+			elem.animate({'font-size':'+=1'},100);
+			elem.animate({'line-height':'+=1'},100);
+		}
+		else{
+			elem.animate({'font-size':'-=1'},100);
+			elem.animate({'line-height':'-=1'},100);
+		}
+	}
+	function init_settings(){
+
+		//Right click action on selected-area
+		$(document).on("contextmenu",'.selected-area', function (event) {
+		    // Avoid the real one
+		    event.preventDefault();		    
+		    // Show contextmenu
+		    $(".custom-menu").finish().toggle(100).
+		    
+		    // In the right position (the mouse)
+		    css({
+		        top: event.pageY + "px",
+		        left: event.pageX + "px"
+		    });
+		});
+
+
+		// If the document is clicked somewhere
+		$(document).bind("mousedown", function (e) {
+		    // If the clicked element is not the menu
+		    if (!($(e.target).parents(".custom-menu").length > 0)) {
+		        // Hide it
+		        $(".custom-menu").hide(100);
+		    }
+		});
+
+
+		// If the menu element is clicked
+		$(".custom-menu li").click(function(){
+		    
+		    // This is the triggered action name
+		    switch($(this).attr("data-action")) {
+		        
+		        // A case for each action. Your actions here
+		        case "delete": $('.selected-area').remove(); break;
+		    }
+		  
+		    // Hide it AFTER the action was triggered
+		    $(".custom-menu").hide(100);
+		  });
+
+
+		$('.edit-area').click(function(e){
+			//console.log(this);
+			$('.edit-area').removeClass('selected-area');
+			$(this).addClass('selected-area');
+			
+			selectedAreaCss=extractCss();
+			// console.log(selectedAreaCss);
+			
+			setBorderSettings();
+			$('.onlyVisibleOnSelectedDiv').css('display','block');
+			e.stopPropagation();
+			if($(this).hasClass('edit-area--text')){
+				$('.edit-text-button').remove();
+				$('.onlyVisibleOnSelectedDiv').append('<button class="ab edit-text-button ui button inverted" style="margin-left:10px;">EDIT</button>');
+			}
+			else{
+				$('.edit-text-button').remove();
+			}
+		});
+
+		//ALIGNMENT
+		var abAlignClasses = new RegExp('\\b' + 'ab-align-' + '.+?\\b', 'g');
+		$('.alignmentButton').click(function(){
+			$('.selected-area')[0].className=$('.selected-area')[0].className.replace(abAlignClasses,'');
+			// classie.add('.selected-area','ab-align-'+$(this).data('align'));
+			$('.selected-area').addClass('ab-align-'+$(this).data('align'));	
+		});
+
+		//FONT-SIZE
+		$('.fontSizeChange').click(function(e){
+			fontSizeChange(e.target);
+		});
+
+		//BORDER
+		
+
+		//EDIT-TEXT
+		$('.onlyVisibleOnSelectedDiv').on("click",".edit-text-button",function(){
+			editSelectedTextArea();
+		});
+	}
+
+	init();
+
+	$('.colorSelectButton').click(function(){
+		if($('#colorBox').hasClass('hideIt')){
+			$('#colorBox').addClass('showIt').removeClass('hideIt');
+		}
+		else
+			$('#colorBox').removeClass('showIt').addClass('hideIt');
+	});	
+	
+ 	$('#colorpicker').farbtastic(function(){
+		$('.color-x').css('background',$.farbtastic('#colorpicker').color);
+		$('#colorPickerDragElement').attr('data-color',$.farbtastic('#colorpicker').color);
+	});
+	$('.editorButtons>div.ui.button').click(function(){
+		var dataValue=$(this).data('value');
+		$(this).removeClass('inverted basic').addClass('activeButton').siblings('.ui.button').removeClass('activeButton').addClass('inverted basic');
+		$(".sidebarMainDiv[data-value='"+dataValue+"']").removeClass('hideIt').addClass('showIt').siblings('.sidebarMainDiv').removeClass('showIt').addClass('hideIt');
+	});
+	$('.closeTool').click(function(){
+		//	console.log($(this).parents('.settingBox'));
+		$(this).parents('.settingBox').addClass('hideIt');
+	});
+
+	//SETTINGS INITIALIZE
+	init_settings();
+});

@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-</head>
-<body>
-<h1>police wale {{user.username}}</h1>
+{% extends "police/partials/layout.html" %}
+{% block content %}
+<h1>{{user.username}}(Police Wale)</h1>
 <p><a href="{% url 'logout' %}">LOGOUT</a></p>
 <p>First Name :{{user.first_name}}</p>
 <p>Last Name :{{user.last_name}}</p>
@@ -35,5 +31,8 @@
 {% for i in messages %}
 <p>{{i}}</p>
 {% endfor %}
-</body>
-</html>
+
+{% endblock %}
+
+{% block js_footer %}
+{% endblock %}

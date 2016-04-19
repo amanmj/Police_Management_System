@@ -1,19 +1,111 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-</head>
-<body>
-    <form method="POST" class="post-form">{% csrf_token %}
+{% extends "police/partials/layout.html" %}
+{% block style_block %}
+<style type="text/css">
+	body.pushable>.pusher {
+	  background-color: #fafafa;
+	}
+	body > .grid {
+	  height: 100%;
+	}
+	.column {
+	  max-width: 450px;
+	  margin-top:50px;
+	}
+	.ab.message{
+		border-radius:1px;
+	}
+</style>
+{% endblock %}
+
+{% block content %}
+<!--     <form method="POST" class="post-form">{% csrf_token %}
     <div class="controls">
             <input type="text" id="username" name="username" placeholder="Username">
              <input type="password" name="password" id="password" placeholder="Password">       
     </div>
         <button type="submit" class="save btn btn-default">Login</button>
     </form>
+    <a href="/signup">SIGNUP HERE</a>
 <p>{{error}}</p>
+
 {% for i in messages %}
 <p>{{i}}</p>
-{% endfor %}
-</body>
-</html>
+{% endfor %} -->
+
+
+<div class="ui middle aligned center aligned grid">
+  <div class="column">
+    <h2 class="ui teal image header">
+      <div class="content">
+        Log-in to your account
+      </div>
+    </h2>
+    <form class="ui large form" method="POST" class="post-form">
+    {% csrf_token %}
+      <div class="ui ab segment">
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="user icon"></i>
+            <input type="text" name="username" id="username" placeholder="Username">
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="lock icon"></i>
+            <input type="password" name="password" id="password" placeholder="Password">
+          </div>
+        </div>
+        <button type="submit" class="ui ab fluid large teal submit button" style="width:150px;margin:0 auto;">Login</button>
+      </div>
+
+      <div class="ui error message"></div>
+      {% if errors|length > 0 %}
+      <div class="ui negative message">
+          <ul class="list">
+              {% for error in errors %}
+                  <li>{{error}}</li>
+              {% endfor %}
+          </ul>
+      </div>
+      {% endif %}
+    </form>
+
+    <div class="ui ab message">
+      New to us? <a href="#">Sign Up</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block js_footer %}
+  <script type="text/javascript">
+    $(document).ready(function() {
+          $('.ui.form')
+            .form({
+              fields: {
+                username: {
+                  identifier  : 'username',
+                  rules: [
+                    {
+                      type   : 'empty',
+                      prompt : 'Please enter your username'
+                    }
+                  ]
+                },
+                password: {
+                  identifier  : 'password',
+                  rules: [
+                    {
+                      type   : 'empty',
+                      prompt : 'Please enter your password'
+                    }
+                  ]
+                }
+              }
+            })
+          ;
+        })
+      ;
+  </script>
+{% endblock %}
+

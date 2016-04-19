@@ -1,0 +1,247 @@
+/***********************************************************************
+NAVBAR
+***********************************************************************/
+.pusher{
+	min-height: 100vh !important;
+}
+.siteContainer{
+	padding-top: 60px;
+}
+
+.ab.menu{
+	padding:0.7em 0.7em !important;
+}
+
+.ab.menu,.ab.segment{
+	border-bottom:1px solid #ccc !important;
+	box-shadow: none !important;
+	border-radius: 0 !important
+}
+.ab.menu>.item{
+	border-radius: 50px !important;
+}
+.ab.menu>.item.right{
+	border-radius:0 !important;
+}
+.ab.menu >.item:before{
+	width:0 !important;
+	background:transparent !important;
+}
+.popper:hover{
+	background:#E8E8E8 !important;
+}
+.ab.menu >.item.active{
+	font-weight: bold;
+	border-radius: 50px !important;
+	background:transparent !important;
+}
+.ab.container{
+	width:100%;
+/*	margin-left:0 !important;
+	margin-right:0 !important;*/
+}
+#notifications-button:hover{
+	background:transparent !important;
+}
+.ab.menu .focus,.ab.menu .focus:hover{
+	color:#40003F !important;
+	font-weight: bold;
+}
+
+
+
+#navbar-mobile{
+	display:none;
+}
+#navbar-mobile.menu.fixed .item:first-child, #navbar-mobile.menu.fixed .item:last-child{
+	width:100px;
+	display:inline-block;
+}
+#navbar-mobile.menu.fixed .item:last-child{
+	float:right;
+	text-align: right;
+}
+#navbar-mobile.menu.fixed .item:last-child:hover{
+	width:auto !important;
+}
+.ab.sidebar{
+	padding-top:60px !important;
+	width:75% !important;
+}
+.ab.large.button{
+	font-weight: 300 !important;
+}
+@media all and (max-width: 520px){
+	#navbar{
+		display: none;
+	}
+	#navbar-mobile{
+		display:block;
+	}
+	.siteContainer{
+		padding-top:60px;
+	}
+}
+
+#store-car-selector{
+	text-align: center;
+	height: 75vh;
+	background:#101010;
+/*		background: url('/images/bg.jpg') no-repeat   center center fixed;
+		-webkit-background-size: cover;
+		-moz-background-size: cover;
+		-o-background-size: cover;
+		background-size: cover;*/
+}
+#store-car-selector p{
+	padding-top: 80px;
+	color:#fff;
+}
+#store-car-selector .dropdown{
+	margin-bottom: 25px;
+}
+
+#store-signup{
+	padding-top:40px;
+}
+#store-signin{
+	padding-top:200px;
+}
+#store-signin button.social{
+	display:block;
+	margin:0 auto;
+	width:250px !important;
+	margin-bottom: 15px !important; 
+}
+@media all and (max-width: 520px){
+	#store-signin{
+		padding-top:100px;
+	}
+}
+
+.ab.fixed.vertical.menu{
+	padding-top:70px !important;
+}
+
+#profile-sidebar{
+	height:100vh;
+}
+.profile-container{
+	margin-left:250px !important;
+	padding-top: 30px;
+	padding-right: 50px !important;
+}
+#dealer-container{
+	margin-left: 250px !important;
+	padding-top: 30px;
+	padding-right: 50px !important;
+}
+#mobile-sidebar{
+	display:none;
+}
+@media all and (max-width: 520px){
+	#profile-container{
+		margin-left:0 !important;
+		padding-left:20px;
+		padding-right: 20px; 
+	}
+	#dealer-container{
+		margin-left:0 !important;
+		padding-left:20px;
+		padding-right: 20px; 
+	}
+	#profile-sidebar{
+		display:none;
+	}
+	#mobile-sidebar:{
+		display:block;
+	}
+}
+@media all and (max-width: 1000px){
+	.hiDealer{
+		border-radius:0 !important;
+		background: #fff !important;
+		text-align: left !important;
+		color:#575757 !important;
+	}
+	.hiDealer>.header{
+		color:#575757 !important;
+	}
+}
+#titleNavbar{
+	/*border:3px solid #252525 !important;*/
+	text-align:center;
+	padding:2px;
+	padding-left:30px;
+	padding-right:30px;
+	font-size:18px;
+	margin-left:30px;
+	color:#000 !important;
+	font-family: lato;
+	font-weight:300 !important;
+}
+
+
+/************
+FIXES
+************/
+.ab[class*="center aligned"].grid .column, .ab.grid > [class*="center aligned"].row > .column, .ab.grid > [class*="center aligned"].column.column, .ab.grid > .row > [class*="center aligned"].column{
+	text-align: left !important; 
+}
+
+.ab.selection.dropdown{
+	border-radius:1.885em !important;
+}
+.ab.menu .item{
+	padding:0.52857143em 1.14285714em;
+}
+.ab.ui.fixed.menu, .ui[class*="top fixed"].menu{
+	height:60px;
+}
+
+#navbarUserDropdown:hover .fa.fa-user{
+	color: #4183c4;
+}
+
+
+
+
+
+/************************************************************
+EDITOR-NAVBAR(EXTENDS NAVBAR)
+************************************************************/
+.editorContainer{
+	padding-top:60px;
+}
+
+#navbar-editor{
+	color:#fff !important;
+	background:#404040 !important;
+	padding:0 !important;
+	border-bottom:0 !important;
+}
+
+#titleEditorNavbar{
+	color:#fff;
+	font-size:17px;
+}
+
+@media all and (max-width: 520px){
+	#navbar-editor{
+		display: none;
+	}
+}
+
+.right.menu .item{
+	padding-left:40px;
+	padding-right:40px;
+	font-size:12px;
+	font-weight:300;
+}
+
+/*****************************************************************
+FIXES
+*****************************************************************/
+#navbar-editor, #navbarEditor.ui[class*="top fixed"].menu{
+	height:50px;
+}

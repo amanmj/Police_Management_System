@@ -1,0 +1,305 @@
+@import url(http://fonts.googleapis.com/css?family=Raleway:200,400,500,700);
+
+body{
+	font-family:lato ;
+	cursor:default;
+}
+
+/**********************************************
+HOME PAGE
+**********************************************/
+#mainImage{ 
+	  background: url(../images/bg1.jpg) no-repeat center center fixed;
+	  -webkit-background-size: cover;
+	  -moz-background-size: cover;
+	  -o-background-size: cover;
+	  background-size: cover;
+	  height: calc(100vh - 60px); 
+}
+
+#getStarted{
+	width:200px;
+	height:50px;
+	position:absolute;
+	top:65%;
+	line-height: 50px;
+	border:3px solid #000;
+	left:50%;
+	color:#000;
+	font-size:25px;
+	text-align:center;
+	margin-left:-100px;
+}
+
+#getStarted:hover{
+	cursor:pointer;
+}
+
+/**********************************************
+HOME PAGE-FIXES
+**********************************************/
+.ui.popup.top.left{
+	margin-left:10px !important;
+	padding:20px;
+}
+.ui.popup{
+	/*color:#fff;*/
+	/*background:#000;*/
+	border:0 !important;
+	border-radius: 0 !important;
+	box-shadow:none !important;
+}
+/*.ui.top.popup:before{
+	background:#000 !important;
+}
+*/
+
+/************************************************
+CHOOSE PAGE
+************************************************/
+#mockupsDisplay{
+	text-align:left;
+	/*margin-top:30px;*/
+	padding:30px;
+	color:#fff;
+	background: #fd746c; /* fallback for old browsers */
+	background: -webkit-linear-gradient(to left, #fd746c , #ff9068); /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to left, #fd746c , #ff9068); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */     
+}
+#yourTemplates{
+	font-family:'raleway';
+	font-weight: 200;
+	padding-top:30px;
+	color:#A1A1A1;
+}
+.closeModal{
+	float:right;
+	font-weight:300;
+	color:#575757;
+}
+
+
+
+/************************************************
+EDITOR PAGE
+************************************************/
+#editorSidebar{
+	background:#000;
+	color:#eee;
+	padding:0 !important;
+	height:calc(100vh - 35px);
+	width:320px !important;
+	position:fixed;
+	padding-left:15px !important;
+	overflow:auto;
+
+}
+#categorySelector{
+	height:200px;
+	position:relative;
+	padding-top:30px;
+	padding-left:10px;
+	padding-right:10px;
+	background:#FF4B4B;
+}
+#categorySelector:before{
+    border: solid;
+    border-color: #FF4B4B transparent;
+    border-width: 8px 8px 0 8px;
+    bottom: -8px;
+    content: "";
+    left: 70%;
+    position: absolute;
+    z-index: 99;
+}
+.editorButtons{
+	padding-top:25px;
+}
+.showIt{
+	display:block !important;
+}
+.hideIt{
+	display:none !important;
+}
+.transparentIt{
+	opacity:0 !important;
+}
+.styleTr{
+	background:#eee;
+}
+.componentsDiv{
+	display:block;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+.settingsDiv{
+	display:none;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+	padding-bottom:15px;
+}
+.activeButton{
+	background:#fff none !important;
+	color:#575757 !important;
+}
+
+/********************************************
+SETTINGS
+********************************************/
+.editorSettings{
+	padding-top:10px;
+}
+.settingDiv{
+	padding-left:20px;
+	margin:5px;
+	background:#363636 !important;
+	border-radius:0 !important;
+	color:#c2c2c2;
+	font-weight:300;
+	padding:5px;
+}
+.colorSelectButton{
+	cursor:pointer;
+}
+.alignmentButton,.styleButton{
+	padding:5px;
+	padding-left:10px;
+	padding-right:10px;
+	background:#575757;
+	height:auto !important;
+	width:auto !important;
+	cursor:pointer
+}
+.onlyVisibleOnSelectedDiv{
+	display:none;
+}
+.alignmentButton:first-child,.styleButton:first-child{
+	margin-left:10px;
+}
+/*.alignmentSetting{
+	padding:5px;
+}*/
+.edit--text---textbox{
+	width:100%;
+	height:120px;
+	border:0 !important;
+}
+.fontSizeChange{
+	padding:5px;
+	background:#575757;
+	height: auto !important;
+	width: auto !important;
+	cursor:pointer;
+	margin:0 !important;
+}
+.fontSizeChange:hover{
+	background:#999;
+}
+.fontSize{
+	margin-left:10px;
+	padding:5px;
+	background:#575757;
+	height: auto !important;
+	width: auto !important;
+}
+.fontSizeDecrease:hover{
+	background: #aaa ;
+}
+
+/********************************************
+COMPONENTS
+********************************************/
+.editorComponents{
+	padding-top:10px;
+}
+.insertDiv{
+	margin-top:8px;
+	background:#363636;
+}
+
+/********************************************
+SETTING TOOLS
+********************************************/
+#colorBox{
+	position:fixed;
+	right:20px;
+	top:30%;
+	width:200px;
+	height:350px;
+	background:#575757;
+	z-index:10000;
+	cursor:dragger;
+}
+
+
+
+/*********************************************
+CUSTOM-MENU
+**********************************************/
+.custom-menu {
+    display: none;
+    z-index: 1000;
+    position: absolute;
+    /*overflow: hidden;*/
+    white-space: nowrap;
+    font-family: sans-serif;
+    background: #101010;
+    color: #fff;
+    font-size:12px;
+    font-weight:300;
+    list-style: none;
+    border-radius: 1px;
+    padding-left:0px !important;
+}
+
+.custom-menu li {
+    padding: 8px 10px;
+    width:120px;
+    cursor: pointer;
+}
+
+.custom-menu>li:hover {
+	color:#101010;
+    background-color: #DBDBDB;
+}
+.custom-menu-inner>li:hover {
+	color:#101010;
+    background-color: #eee;
+}
+
+
+.custom-menu-inner{
+	position:absolute;
+	left:100%;
+	background:#373737;
+	padding-left:0;
+	color:#eee;
+	list-style:none;
+	display:none;
+}
+
+
+
+
+/************************************
+FIXES
+************************************/
+.ui.buttons .button:last-child,.ui.buttons .button:first-child{
+	border-radius:0px !important;
+}
+.ui.buttons .button:last-child{
+	border-left:1px solid #575757;
+}
+/*.ui.buttons .button:first-child{
+	border-right:3px solid #575757;
+}*/
+.ui .segment{
+	padding:0.4em 0.4em !important;
+}
+.ui.ab.cards>.card{
+	border-radius:1px;
+}

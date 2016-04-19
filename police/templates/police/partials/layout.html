@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Police Management System</title>
+    <link rel="stylesheet" type="text/css" href="/static/bowerComponents/semantic/dist/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/bowerComponents/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/navbar.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/ab-custom.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/amaran.min.css">
+    {% block style_block %}{% endblock %}
+    <!-- JQUERY SHOULD LOAD BEFORE ANYTHING ELSE  -->
+    <script type="text/javascript" src="/static/bowerComponents/jquery/dist/jquery.js"></script>   
+  </head>
+
+  <body>
+
+    {% block topbar %}
+    <div id="navbar" class="ui ab top fixed segment menu">
+      <div class="item" id="titleNavbar">
+        POLICE MANAGEMENT SYSTEM
+      </div>
+      <div class="item">
+      </div>
+      {% if user.is_authenticated %}
+        <!-- <div class="item right focus" style="font-weight:300">Hi <b style="padding-left:6px;"> {{user.username}}</b>!</div> -->
+        <div class="ui right dropdown simple item" id="navbarUserDropdown">
+          <span class="h-space-light">Hi {{user.username}}!</span>
+          <i class="dropdown icon"></i>
+          <div class="menu">
+            <a class="item" href="/profile">Profile</a>
+            <a class="item logout" href="/logout  ">Logout</a>
+            <a href="/contact" class="item contact">Contact Us</a>
+          </div>
+        </div>
+      {% else %}
+        <a class="item right focus" id="signIn" href="/login">Sign in</a>
+      {% endif %}
+    </div>
+
+    <div id="navbar-mobile" class="ui ab top fixed menu">
+      <div class="item">
+        Police Management System
+      </div>
+      <a class="item right focus toggle-sidebar" sidebar-toggle><i class="fa fa-bars"></i></a>
+      </div>
+      <div class="ui ab right sidebar vertical menu">
+        <a class="item" href="/">
+          Home
+        </a>
+        <a class="item" href="/profile">
+          Profile
+        </a>
+        <a class="item">
+          About us
+        </a>
+        <a class="item">
+          Contact
+        </a>
+      </div>
+
+    <div class="pusher">
+      <div class="siteContainer">
+            {% block page_header %}{% endblock %}
+            {% block content %}{% endblock %}
+            <script type="text/javascript" src="/static/bowerComponents/semantic/dist/semantic.js"></script>
+            <script type="text/javascript" src="/static/js/navbar.js"></script>
+            <script type="text/javascript" src="/static/js/jquery.amaran.min.js"></script>
+            <script type="text/javascript">
+              {% for message in messages %}
+                $.amaran({'message':'{{message}}'});
+              {% endfor %}
+            </script>
+            {% block js_footer %}{% endblock %}
+      </div>
+    </div>  
+    {% endblock %}
+
+  </body>
+</html>

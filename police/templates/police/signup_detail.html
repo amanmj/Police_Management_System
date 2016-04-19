@@ -1,26 +1,23 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-</head>
-<body>
+{% extends "police/partials/layout.html" %}
+{% block content %}
 <h1>Detail Signup</h1>
 <h3>Bol tu kaun hai bc</h6>
-<form method="POST" class="post-form">{% csrf_token %}
+<form method="POST" class="post-form">
+{% csrf_token %}
 	<select name="police">
     	<option value="police">PoliceWala Launda</option>
 	    <option value="civilian">Kejriwal ke jaisa Aam aadmi</option>
 	</select>
 
-<p><label for="id_phone_no">Phone no:</label><input id="id_phone_no" name="phone_no" type="number" /></p>
+<p><label for="id_phone_no">Phone no:</label><input id="id_phone_no" name="phone_no" type="text" /></p>
 <p><label for="id_age">Age:</label><input id="id_age" name="age" type="number" /></p>
 <select name="gender" id="gender">
     <option value="Male">Male</option>
     <option value="Female">Female</option>
     <option value="Gay">Gay</option>
-    </select>     
+    </select>
   <button type="submit">Ma behen ek kar</button>
 </form> 
-<div>{{error}}
-</body>
-</html>
+<div>
+{{error}}
+{% endblock %}

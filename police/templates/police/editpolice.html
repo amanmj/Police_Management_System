@@ -1,22 +1,18 @@
-<!DOCTYPE html>
-<html>
-<head>
-<script src="https://code.jquery.com/jquery-2.2.3.js"></script>
-<title>Edit Police Details</title>
-</head>
-
-<body>
+{% extends "police/partials/layout.html" %}
+{% block content %}
 <h1>{{error}}</h1>
 <h1>Edit details for {{user.username}}</h1>
 
 
 
-<form method="POST" class="post-form">{% csrf_token %}
+<form method="POST" class="post-form">
+{% csrf_token %}
 
 <p><label for="id_salary">Salary:</label> <input id="id_salary" name="salary" type="number" value="{{details.salary}}"/></p>
 <p><label for="id_description">Description:</label> <input id="id_description" name="description" rows="10" value="{{details.description}}"/></p>
 <p><label for="id_post">Post:</label> 
 <select name="post_police" id="post_police">
+    <option value="">Select</option>
     <option value="Commissioner">Commissioner</option>
     <option value="Joint Commissioner">Joint Commissioner</option>
     <option value="Deputy Commissioner">Deputy Commissioner</option>
@@ -25,6 +21,13 @@
     <option value="Assistant Inspector">Assistant Inspector</option>
     <option value="Sub-Inspector">Sub-Inspector</option>
     <option value="Constable">Police Constable</option>
+</select>
+<p><label for="id_station">Police station:</label>
+<select name="station_police" id="station_police">
+    <option value="">Select</option>
+    {%for station in stations %}
+    <option value="{{station.slug}}">{{station.name}}</option>
+    {% endfor %}
 </select>
 
 <p><label for="id_house_no">House no:</label> <input id="id_house_no" name="house_no" rows="10" value="{{address.house_no}}"></p>
@@ -37,13 +40,31 @@
 <button type="submit" class="save btn btn-default">Save Changes</button>
 
 </form>
-{% if post %}
-<script>
-$(document).ready(function (){
-	var temp="{{post}}";
-	$('#post_police').value(temp);
-});
+{%endblock%}
+
+{% block js_footer %}
+<script type="text/javascript">
+    $(document).ready(function (){
+        console.log('yo');
+
+        $("form").submit(function(e){
+            if($('#post_police').val()==""||$('#station_police').val()==""){
+                e.preventDefault(e);
+                $.amaran({message:"Post or Police station can't be empty"});
+            }
+        });
+
+        // console.log('{{details.station_id}}');
+        {% if post %}
+        var temp="{{post}}";
+        $('#post_police').val(temp);
+        {% endif %}
+        {% if details.station_id %}
+        var temp="{{details.station_id}}";
+        $('#station_police').val(temp);
+        {% endif %}
+    });
 </script>
-{% endif %}
-</body>
-</html>
+
+
+{% endblock %}

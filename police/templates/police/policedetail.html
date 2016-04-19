@@ -1,29 +1,161 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-</head>
-<body>
-<h1>{{error}}</h1>
-<h1>Detail of Police {{user.username}}</h1>
-<p>Username : {{user.username}}</p>
-<p>Name: {{user.first_name}} {{user.last_name}}</p>
-<p>Email ID : {{user.email}}</p>
+{% extends "police/partials/layout.html" %}
+
+{% block content %}
+{% if detailsFilled %}
+<div class="ui ab container grid centered">
+	<div class="sixteen wide column" style="text-align:center">
+		<h2>{{details.req_user.first_name}} {{details.req_user.last_name}}</h2>
+		<div>{{details.police.post}}</div>
+	</div>
+	<div class="ui row">
+		
+	<div class="four wide column" style="margin:5px;padding:10px;background:#eee;font-size:15px;">		
+			<b>E-mail: </b> {{details.req_user.email}} <br>
+			<b>Phone No.: </b> {{details.userprofile.phone_no}} <br>
+			<b>Age: </b> {{details.userprofile.age}} <br>
+			<b>Gender: </b> {{details.userprofile.gender}} <br>
+	</div>
+	{% if not deferred %}
+		<div class="eleven wide column" style="margin:5px;padding:10px;background:#eee;font-size:15px;">
+			<p><b>Address : </b><br>{{details.address.house_no}} , <br> {{details.address.locality}} ,<br> {{details.address.city}}, <br>{{details.address.state}}, <br>Pincode: {{details.address.pin_code}}</p>
+		</div>
+	{% endif %}
+	</div>
+	<div class="sixteen wide column">
+		<b>DESCRIPTION: </b><br>
+		{{details.police.description}} <br>
+		{% if not deferred %}
+		<b>SALARY: </b> {{details.police.salary}} Rs per month
+		{% endif %}
+		<h3>COMPLAINT</h3>
+		<div class="ui comments" id="police_complaints">
+		{% for complaint in complaints|dictsortreversed:"pub_date"%}
+		  <div class="comment">
+		    <div class="content">
+		      <a class="author">{{complaint.user}}</a>
+		      <div class="metadata">
+		        <div class="date">{{complaint.pub_date | timesince}} ago</div>
+		      </div>
+		      <div class="text" style="padding-left:20px;">
+		        <p>{{complaint.description}}</p>
+		      </div>
+		    </div>
+		  </div>
+		{% endfor %}
+
+		{% if deferred %}
+			<h5>ADD YOUR COMPLAINT</h5>
+			<form class="ui form" id="complaintForm"> 
+				{% csrf_token %}
+				<div class="field">
+				<textarea rows="2" name="complaint"></textarea>
+				</div>
+<!-- 				<div class="field">
+				  <div class="ui checkbox">
+				    <input type="checkbox" name="private" tabindex="0">
+				    <label>Make Complaint private to concerned officials</label>
+				  </div>
+				</div> -->
+				<button type="submit" class="ui teal submit labeled icon button">
+				<i class="icon edit"></i> Complain
+				</button>
+				<div class="ui error message"></div>
+			</form>
+		{% endif %}
+		</div>
+	</div>
+</div>
+{% else %}
+	<h3 style="padding:10px;">The policeman hasn't filled his details yet.</h3>
+{% endif %}
+
+<script id="complaint_template" type="jquery/template-x">
+	<div class="comment">
+	  <div class="content">
+	    <a class="author"></a>
+	    <div class="metadata">
+	      <div class="date">just now</div>
+	    </div>
+	    <div class="text" style="padding-left:20px;">
+	      <p class="description"></p>
+	    </div>
+	  </div>
+	</div>
+</script>
+
+{% endblock %}
+
+
+
+
+
+<!-- 
+{% comment %}
+{% if detailsFilled %}
+<h1>Detail of Police {{req_user.username}}</h1>
+<p>Username : {{req_user.username}}</p>
+<p>Name: {{req_user.first_name}} {{user.last_name}}</p>
+<p>Email ID : {{req_user.email}}</p>
 <p>Phone No. : {{userprofile.phone_no}}</p>
 <p>Age: {{userprofile.age}}</p>
 <p>Gender: {{userprofile.gender}}</p>
 
 {% if address %}
-<p>Address : <br>{{address.house_no}} , <br> {{address.locality}} ,<br> {{address.city}}, <br>{{address.state}}, <br>PINCODE:{{address.pin_code}}</p>
+{% if not deferred %}
+	<p>Address : <br>{{address.house_no}} , <br> {{address.locality}} ,<br> {{address.city}}, <br>{{address.state}}, <br>PINCODE:{{address.pin_code}}</p>
 {% endif %}
-
-
+{% endif %}
 {% if police %}
 <p>Post: {{police.post}}</p>
 <p>Description:{{police.description}}</p>
-<p>Salary:{{police.salary}} Rs per month</p>
+{% if not deferred %}
+	<p>Salary:{{police.salary}} Rs per month</p>
 {% endif %}
 
+{% endif %}
+{% else %}
+	<h3 style="padding:10px;">The policeman hasn't filled his details yet.</h3>
+{% endif %}
+<h3>{{error}}</h3>
+{% endblock %}
+{% endcomment %} 
+ -->
 
-</body>
-</html>
+{% block js_footer %}
+	<script type="text/javascript">
+		$(document).ready(function(){
+
+			$('#complaintForm')
+			  .form({
+			    fields: {
+			      complaint: {
+			        identifier : 'complaint',
+			        rules: [
+			          {
+			            type   : 'empty',
+			            prompt : 'Please enter your complaint'
+			          }
+			        ]
+			      }
+			    },
+			    onSuccess:function(event,fields){
+			    	event.preventDefault();
+			    	$.post('/addComplaint/{{details.req_user.username}}',fields,function(){
+			    		console.log('Registering your compalint...');
+			    	},'json')
+			    	.done(function(data){
+			    		console.log(data);
+			    		if(data.success===true){	
+				    		var x=$('#complaint_template').html();
+							var review=$(x);
+							review.find('.author').html(data.complaint.user);
+							review.find('.description').html(data.complaint.description);
+				    		$('#police_complaints').prepend(review);
+			    		}
+			    		$.amaran({'message':data.message});
+			    	});
+			    }
+			  });
+		});
+	</script>
+{% endblock %}

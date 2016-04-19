@@ -1,0 +1,114 @@
+{% extends "police/partials/layout.html" %}
+{% block content %}
+<div class="ui ab grid container centered" style="padding-top: 10px;">
+	<div class="sixteen wide column" style="text-align:center;">	
+		<h2 class="ui header">{{station.name}}</h2>
+		<p>{{station.locality}} <br> {{station.city}},{{station.state}}</p>
+	<div class="ui divider"></div>
+	</div>
+	<div class="sixteen wide column">
+		<h4 class="ui header">POLICE ON DUTY</h4>
+		<table class="ui tablet stackable table">
+		  <thead>
+		    <tr>
+		      <th>Name</th>
+		      <th>Post</th>
+		      <th class="right aligned">Description</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		  {% for police in police_wale%}
+		    <tr>
+		      <td><a href="/detail/police/{{police.user}}">{{police.user}}</a></td>
+		      <td>{{police.post}}</td>
+		      <td class="right aligned">{{police.description}}</td>
+		    </tr>
+		   {% endfor %}
+		  </tbody>
+		</table>
+	</div>
+	<div class="sixteen wide column">
+		<h3>REVIEWS</h3>	
+		<div class="ui comments" id="station_reviews">
+		{% for review in reviews|dictsortreversed:"date_posted"%}
+		  <div class="comment">
+		    <div class="content">
+		      <a class="author">{{review.civilian}}</a>
+		      <div class="metadata">
+		        <div class="date">{{review.date_posted | timesince}} ago</div>
+		      </div>
+		      <div class="text" style="padding-left:20px;">
+		        <p>{{review.description}}</p>
+		      </div>
+		    </div>
+		  </div>
+		{% endfor %}
+		  <form class="ui form" id="reviewForm"> 
+		  {% csrf_token %}
+		    <div class="field">
+		      <textarea rows="2" name="description"></textarea>
+		    </div>
+		    <button type="submit" class="ui teal submit labeled icon button">
+		      <i class="icon edit"></i> Add Review
+		    </button>
+		    <div class="ui error message"></div>
+		  </form>
+		</div>
+	</div>
+	
+
+</div>
+<script id="review_template" type="jquery/template-x">
+	<div class="comment">
+	  <div class="content">
+	    <a class="author"></a>
+	    <div class="metadata">
+	      <div class="date">just now</div>
+	    </div>
+	    <div class="text" style="padding-left:20px;">
+	      <p class="description"></p>
+	    </div>
+	  </div>
+	</div>
+</script>
+{% endblock %}
+
+{% block js_footer %}
+<script type="text/javascript">
+	$(document).ready(function(){
+
+		$('.ui.form')
+		  .form({
+		    fields: {
+		      description: {
+		        identifier : 'description',
+		        rules: [
+		          {
+		            type   : 'empty',
+		            prompt : 'Some something :|'
+		          }
+		        ]
+		      }
+		    },
+		    onSuccess:function(event,fields){
+		    	event.preventDefault();
+		    	$.post('/addReview/{{station.slug}}',fields,function(){
+		    		console.log('Adding your review...');
+		    	},'json')
+		    	.done(function(data){
+		    		console.log(data);
+		    		if(data.success===true){	
+			    		var x=$('#review_template').html();
+						var review=$(x);
+						review.find('.author').html(data.review.user);
+						review.find('.description').html(data.review.description);
+			    		$('#station_reviews').prepend(review);
+		    		}
+		    		$.amaran({'message':data.message});
+		    	});
+		    }
+		  });
+	});
+</script>
+{% endblock %}
+

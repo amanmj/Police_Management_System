@@ -1,0 +1,4 @@
+env/
+*.pyc
+police/migrations/
+Police_Database/settings.py
