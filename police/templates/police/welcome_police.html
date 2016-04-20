@@ -1,6 +1,6 @@
 {% extends "police/partials/layout.html" %}
 {% block content %}
-<h1>{{user.username}}(Police Wale)</h1>
+<h1>{{user.username}}</h1>
 <p><a href="{% url 'logout' %}">LOGOUT</a></p>
 <p>First Name :{{user.first_name}}</p>
 <p>Last Name :{{user.last_name}}</p>

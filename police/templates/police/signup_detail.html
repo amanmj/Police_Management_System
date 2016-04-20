@@ -7,8 +7,8 @@
 <form method="POST" class="ui form post-form">
 {% csrf_token %}
 	<select name="police">
-    	<option value="police">PoliceWala Launda</option>
-	    <option value="civilian">Kejriwal ke jaisa Aam aadmi</option>
+    	<option value="police">Policeman</option>
+	    <option value="civilian">Civilian</option>
 	</select>
 
 <p><label for="id_phone_no">Phone no:</label><input id="id_phone_no" name="phone_no" type="text" /></p>
@@ -16,7 +16,7 @@
 <select name="gender" id="gender">
     <option value="Male">Male</option>
     <option value="Female">Female</option>
-    <option value="Gay">Gay</option>
+    <option value="Other">Other</option>
     </select>
   <button class="ui ab button teal" style="margin-top:10px;" type="submit">Submit</button>
 </form> 

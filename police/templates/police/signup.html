@@ -7,7 +7,7 @@
     <title>Signup</title>
 </head>
 <body>
-    <h1> Signup Kar saale</h1>
+    <h1> Signup new User</h1>
     <form method="POST" class="post-form">{% csrf_token %}
     <div class="controls">
             <input type="text" id="username" name="username" placeholder="Username">
@@ -16,7 +16,7 @@
             <input type="text" id="lastname" name="lastname" placeholder="Last Name">
              <input type="password" name="password" id="password" placeholder="Password">  
     </div>
-        <button type="submit" class="save btn btn-default">Signup kar Chutiye</button>
+        <button type="submit" class="save btn btn-default">Signup</button>
     </form>
     <div>{{status}}</div>
 
