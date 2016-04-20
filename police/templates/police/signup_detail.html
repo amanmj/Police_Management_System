@@ -1,8 +1,10 @@
 {% extends "police/partials/layout.html" %}
 {% block content %}
+<div style="margin-left:15px;">
 <h1>Detail Signup</h1>
-<h3>Bol tu kaun hai bc</h6>
-<form method="POST" class="post-form">
+<div class="ui ab segment" style="max-width:400px;width:95%">
+<h3>Please tell us about yourself</h3>
+<form method="POST" class="ui form post-form">
 {% csrf_token %}
 	<select name="police">
     	<option value="police">PoliceWala Launda</option>
@@ -16,8 +18,10 @@
     <option value="Female">Female</option>
     <option value="Gay">Gay</option>
     </select>
-  <button type="submit">Ma behen ek kar</button>
+  <button class="ui ab button teal" style="margin-top:10px;" type="submit">Submit</button>
 </form> 
 <div>
 {{error}}
 {% endblock %}
+</div>
+</div>

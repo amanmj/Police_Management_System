@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect,get_object_or_404
+from django.shortcuts import render,redirect,get_object_or_404,render_to_response
 from django.contrib.auth.models import User
 from django.db import IntegrityError,connection
 from django.http import HttpResponse,Http404
@@ -8,6 +8,7 @@ from .forms import User_profile_form,Police_form,Address_form,Civilian_form,Crim
 from django.contrib import messages
 from django.contrib.messages import get_messages
 from django.utils import timezone
+from django.template import RequestContext
 import json
 
 def index(request):
@@ -38,6 +39,7 @@ def signuppage(request):
 			status = 'user already exists'
 			return render(request,'police/signup.html',{'status':status})
 		else:
+			messages.info(request,'Welcome! Successfully signed up.')
 			status = 'new user was created'
 		return redirect('/fill_details')
 	else:
@@ -453,3 +455,6 @@ def searchPoliceStations(request):
 			return HttpResponse(json.dumps({'stations':stations,'found':True}))
 		else:
 			return HttpResponse(json.dumps({'found':False}))
+
+def page_not_found(request):
+	return render(request,'404.html')

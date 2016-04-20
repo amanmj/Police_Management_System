@@ -1,10 +1,13 @@
+{% extends "police/partials/layout.html" %}
+
+{% comment %}
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Signup</title>
+    <title>Signup</title>
 </head>
 <body>
-	<h1> Signup Kar saale</h1>
+    <h1> Signup Kar saale</h1>
     <form method="POST" class="post-form">{% csrf_token %}
     <div class="controls">
             <input type="text" id="username" name="username" placeholder="Username">
@@ -18,4 +21,142 @@
     <div>{{status}}</div>
 
 </body>
-</html>
+</html> 
+{% endcomment %}
+
+{% block content %}
+    {% if registered %}
+    <strong>Thank you for registering!</strong>
+    <a href="/">Return to the homepage.</a><br />
+    {% else %}
+    <div class="ui ab center aligned grid ">
+        <div class="fourteen wide mobile eight wide tablet eight wide computer column">
+            <div class="ui attached message">
+                <div class="header">Welcome stranger!</div>
+                <p>Lets get acquainted</p>
+            </div>
+            <form class="ui form attached segment" id="user_form" method="post">
+                {% csrf_token %}
+                <div class="field">
+                    <label>Username</label>
+                    <div class="ui input">
+                        <input type="text" name="username" placeholder="Your username">
+                    </div>
+                </div>
+                <div class="field">
+                    <label>E-mail</label>
+                    <div class="ui input">
+                        <input type="text" name="email" placeholder="E-mail address">
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Name</label>
+                    <div class="two fields">
+                      <div class="field">
+                        <input type="text" name="firstname" placeholder="First Name">
+                      </div>
+                      <div class="field">
+                        <input type="text" name="lastname" placeholder="Last Name">
+                      </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Password</label>
+                    <div class="ui input">
+                        <input type="password" name="password" placeholder="Select a password">
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Confirm password</label>
+                    <div class="ui input">
+                        <input type="password" name="confirm" placeholder="Confirm password">
+                    </div>
+                </div>
+                <button id="submitButton" value="Register" type="submit" class="ui teal animated button" style="margin-bottom:25px" tabindex="0">
+                    <div class="visible content">Signup</div>
+                    <div class="hidden content"> <i class="right arrow icon"></i> </div>
+                </button>
+                <div class="ui error message"></div>
+                {% if status %}
+                <div class="ui negative message">
+                    <ul class="list">
+                        <li>{{status}}</li>
+                    </ul>
+                </div>
+                {% endif %}
+            </form>
+            <div class="ui bottom attached warning message">
+                <i class="icon help"></i>
+                Already signed up? <a href="/sign-in">Signin here</a> instead.
+            </div>
+        </div>
+        {% endif %}
+{% endblock %}
+
+{% block js_footer %}
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.ui.checkbox').checkbox();
+        $('.ui.form')
+          .form({
+            fields: {
+              username: {
+                identifier : 'username',
+                rules: [
+                  {
+                    type   : 'regExp[/^[a-zA-Z0-9_-]{6,12}$/]',
+                    prompt : 'Username should be 6-12 in length, and count contain only letters, numbers, \'_\' and \'-\' '
+                  }
+                ]
+              },
+              email:{
+                identifier:'email',
+                rules:[
+                {
+                  type:'email',
+                  prompt:'Please enter a valid email'
+                }
+                ]
+              },
+              firstname:{
+                identifier:'firstname',
+                rules:[
+                {
+                    type:'empty',
+                    prompt:'Please tell us your first name'
+                }
+                ]
+              },
+              lastname:{
+                identifier:'lastname',
+                rules:[
+                {
+                    type:'empty',
+                    prompt:'Your last name?'
+                }
+                ]
+              },
+              password: {
+                identifier : 'password',
+                rules: [
+                  {
+                    type   : 'minLength[6]',
+                    prompt : 'Your password must be at least 6 characters'
+                  }
+                ]
+              },
+              confirm:{
+                identifier: 'confirm',
+                rules:[
+                {
+                  type: 'match[password]',
+                  prompt:' Please confirm your password'
+                }
+                ]
+              }
+            }
+          });
+
+    });
+</script>
+{% endblock %}

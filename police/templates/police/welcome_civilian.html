@@ -1,19 +1,23 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-</head>
-<body>
-<h1>Oye civilian {{user.username}}</h1>
-<p><a href="{% url 'logout' %}">LOGOUT</a></p>
-<p>First Name {{user.first_name}}</p>
-<p>Last Name {{user.last_name}}</p>
-<p>Email ID {{user.email}}</p>
-<p>Umar {{curr_user.age}}</p>
-<p><a href="{% url 'editcivilian' username=user.username%}">EDIT INFO</a></p>
+{% extends 'police/partials/layout.html' %}
 
-{% for i in messages %}
-<p>{{i}}</p>
-{% endfor %}
-</body>
-</html>
+{% block content %}
+	<div class="ui container" style="padding-top:10px;">
+		<h2 class="ui header">User Info</h2>
+		<div class="ui divider"></div>
+		<div class="column">
+		<p><b>Username:</b> {{user.username}}</p>
+		<p><b>First Name:</b> {{user.first_name}}</p>
+		<p><b>Last Name:</b> {{user.last_name}}</p>
+		<p><b>Email ID:</b> {{user.email}}</p>
+		<p><b>Umar:</b> {{curr_user.age}}</p>
+		<p><a href="{% url 'editcivilian' username=user.username%}">EDIT INFO</a></p>
+			
+		</div>	
+	{% for i in messages %}
+	<p>{{i}}</p>
+	{% endfor %}
+	</div>
+{% endblock %}
+
+{% block js_footer %}
+{% endblock %}

@@ -24,3 +24,4 @@ urlpatterns = [
     #HOME-PAGE
     url(r'^searchPoliceStations',views.searchPoliceStations,name="searchPoliceStations"),
 ]
+

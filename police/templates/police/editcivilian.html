@@ -1,9 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Edit Civilian</title>
-</head>
-<body>
+{% extends 'police/partials/layout.html' %}
+{% block content %}
 <h1>{{error}}</h1>
 <h1>Edit details for {{user.username}}</h1>
 
@@ -28,5 +24,7 @@
 <button type="submit">Save Changes</button>
 </form>
 
-</body>
-</html>
+{% endblock %}
+
+{% block js_footer %}
+{% endblock %}
