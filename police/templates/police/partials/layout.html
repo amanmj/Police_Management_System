@@ -31,11 +31,17 @@
           <div class="menu">
             <a class="item" href="/login">Profile</a>
             <a class="item logout" href="/logout  ">Logout</a>
-            <a href="/contact" class="item contact">Contact Us</a>
           </div>
         </div>
       {% else %}
-        <a class="item right focus" id="signIn" href="/login">Sign in</a>
+      <div class="ui right dropdown simple item" id="navbarUserDropdown">
+       <span class="h-space-light">Welcome!</span>
+      <i class="dropdown icon"></i>
+          <div class="menu">
+            <a class="item" href="/login">Login</a>
+            <a class="item" href="/signup">Signup</a>
+          </div>
+      </div>
       {% endif %}
     </div>
 
