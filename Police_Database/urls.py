@@ -19,5 +19,3 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^',include('police.urls')),
 ]
-
-handler404='police.views.page_not_found'
