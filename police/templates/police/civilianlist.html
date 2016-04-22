@@ -1,29 +1,23 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Civilian List</title>
-</head>
-<body>
-<h1>Civilian Database</h1>
-
-
-<table border=3 frame=hsides rules=columns>
-
-<tr>
-<th>Username</th>
-<th>First Name</th>
-<th>Last Name</th>
-<th>Email ID</th>
-<th>Gender</th>
-<th>Age</th>
-<th>Phone Number</th>
-</tr>
-
+{% extends 'police/partials/layout.html' %}
+{% block content %}
+<div class="ui container" style="padding-top:50px;">
+<h3>USER LIST</h3>
+<table class="ui celled table">
+<thead>
+	<tr>
+		<th>Username</th>
+		<th>First Name</th>
+		<th>Last Name</th>
+		<th>Email ID</th>
+		<th>Gender</th>
+		<th>Age</th>
+		<th>Phone Number</th>
+	</tr>
+</thead>
 {% if result %}
+<tbody>
 {% for itr in result %}
-
 <tr>
-
 <td><a href="{% url 'civiliandetail' username=itr.user.username %}">{{itr.user.username}}</a></td>
 <td>{{itr.user.first_name}}</td>
 <td>{{itr.user.last_name}}</td>
@@ -33,13 +27,10 @@
 <td>{{itr.phone_no}}</td>
 </tr>
 {% endfor %}
+</tbody>
 {% else %}
 <h1>No users found</h1>
-
-
 {% endif %}
-
-
 </table>
-</body>
-</html>
+</div>
+{% endblock %}

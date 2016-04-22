@@ -1,21 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Civilian Detail</title>
-</head>
-<script>
-function show(){
-but=document.getElementById("criminal");
-butt=document.getElementById("but");
-but.style.display="block";
-butt.style.display="none";
-}
-</script>
-
-<body>
+{% extends 'police/partials/layout.html' %}
+{% block content %}
+<div class="ui container">
 <h1>{{error}}</h1>
-<h1>Detail of Civilian 	{{user.username}}</h1>
-<p>Username : {{user.username}}</p>
+<h1>Civilian: <span class="ui label" style="font-size:18px;border-radius:1px">{{user.username}}</span></h1>
 <p>Name: {{user.first_name}} {{user.last_name}}</p>
 <p>Email ID : {{user.email}}</p>
 <p>Phone No. : {{userprofile.phone_no}}</p>
@@ -31,7 +18,7 @@ butt.style.display="none";
 <h2>Criminal Status : </h2>
 
 {% if civilian.isCriminal %}
-<h3>Yes he is a criminal</h3>
+<h3>Criminal</h3>
 {% for itr in criminal %}
 <p>Jail : {{itr.jail}} years</p>
 <p>Description : {{itr.description}}</p>
@@ -45,17 +32,25 @@ butt.style.display="none";
 
 <div id="criminal" style="display:none">
 <form method="POST" class="post-form">{% csrf_token %}
-<p><label for="id_jail">Jail:</label> <input id="id_jail" name="jail" type="number" value="0" /></p>
+<p><label for="id_jail">Jail:</label> <input id="id_jail" name="jail" type="number" value="0" /> Years</p>
 <p><label for="id_description">Description:</label> <input id="id_description" name="description"></p>
-<p><label for="id_section">Section:</label> <input name="section"></p>
-<p><label for="id_fine">Fine:</label><input id="id_fine" name="fine" type="number" value="0" /></p>      
+<p><label for="id_section">Section:</label> <input name="section" placeholder="Eg: Dafa 420 ke tahat..."></p>
+<p><label for="id_fine">Fine:</label><input id="id_fine" name="fine" type="number" value="0" /> Rs</p>      
 <button type="submit">Assign Crime</button>
 </form>
 </div>
-
-
 {% endif %}
+</div>
+{% endblock %}
 
-
-</body>
-</html>
+{% block js_footer %}
+<script type="text/javascript">
+	
+function show(){
+but=document.getElementById("criminal");
+butt=document.getElementById("but");
+but.style.display="block";
+butt.style.display="none";
+}
+</script>
+{% endblock %}

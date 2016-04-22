@@ -1,32 +1,33 @@
 {% extends "police/partials/layout.html" %}
 {% block content %}
-<h1>{{user.username}}(Police Wale)</h1>
-<p><a href="{% url 'logout' %}">LOGOUT</a></p>
-<p>First Name :{{user.first_name}}</p>
-<p>Last Name :{{user.last_name}}</p>
-<p>Email ID :{{user.email}}</p>
-<p>Age :{{curr_user.age}}</p>
-<p><a href="{% url 'editpolice' username=user.username%}">EDIT Personal Info</a></p>
+<div class="ui container ab" style="padding:10px;">
+	<img src="/static/images/badge.png" style="width:50px;padding-right:10px;vertical-align:middle"><span style="font-size:20px;">{{user.first_name}} {{user.last_name}}</span>
+	<div style="padding-left:50px;padding-top:5px;font-weight:700">
+		<p>Email ID :{{user.email}}</p>
+		<p>Age :{{curr_user.age}}</p>
+		<p><a href="{% url 'editpolice' username=user.username%}">EDIT Personal Info</a></p>
+	</div>
+	<div style="padding-top:30px;">
+		<p><a href="{% url 'civiliandatabase' %}">VIEW USER DATABASE</a>
+		<p><a href="{% url 'criminaldatabase' %}">VIEW CRIMINAL DATABASE</a>
+	</div>
+	<h3>Search for a user</h3>
+	 <form method="POST" class="ui form" class="post-form">{% csrf_token %}
+	 	<input type="text" id="username" style="width:300px;" name="username" placeholder="Username">
+	 	<button class="ui ab button teal" type="submit" value="civilian" name="civilian">Search</button>
+	 </form>
 
-
-<div>
-<p><a href="{% url 'civiliandatabase' %}">VIEW USER DATABASE</a>
-<p><a href="{% url 'criminaldatabase' %}">VIEW CRIMINAL DATABASE</a>
+	<h3>Search for police</h3>
+	 <form class="ui form" method="POST" class="post-form">{% csrf_token %}
+	 	<input type="text" id="username" style="width:300px;" name="username" placeholder="Username">
+	 	<button class="ui ab button teal" type="submit" value="police" name="police">Search</button>
+	 </form> 
 </div>
 
 
 
-<h3>Search for a user</h3>
- <form method="POST" class="post-form">{% csrf_token %}
- <input type="text" id="username" name="username" placeholder="Username">
- <button type="submit" value="civilian" name="civilian">Search</button>
- </form>
 
-<h3>Search for police</h3>
- <form method="POST" class="post-form">{% csrf_token %}
- <input type="text" id="username" name="username" placeholder="Username">
- <button type="submit" value="police" name="police">Search</button>
- </form> 
+
 
 {% for i in messages %}
 <p>{{i}}</p>

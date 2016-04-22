@@ -320,10 +320,21 @@ def civiliandetail(request,username):
 	if not request.user.is_authenticated():
 		messages.error(request, 'you need to login first with a valid policeman account')
 		return redirect('/login')
-	if User_profile.objects.get(user=request.user).isPolice==0:
+
+	try:
+		user=User_profile.objects.get(user=request.user)
+	except User_profile.DoesNotExist:
 		logout(request)
-		messages.error(request, 'you are a civilian and the information you requested is highly confidential which is only available to the police')
+		messages.error(request, 'Please enter your details')
+		return redirect('/fill_details')
+	if user.isPolice==0:
+		logout(request)
+		messages.error(request,'You are a civilian and the information you requested is highly confidential which is only available to the police')
 		return redirect('/login')
+	# if User_profile.objects.get(user=request.user).isPolice==0:
+	# 	logout(request)
+	# 	messages.error(request, 'you are a civilian and the information you requested is highly confidential which is only available to the police')
+	# 	return redirect('/login')
 
 	if request.method=='POST':
 		form=Criminal_Record_form(request.POST)
@@ -416,9 +427,15 @@ def addReview(request,slug):
 		station=Station.objects.get(slug=slug)
 		if(request.user.is_authenticated()):
 			try:
-				civilian=Civilian.objects.get(user=request.user)
-			except Civilian.DoesNotExist:
-				return HttpResponse(json.dumps({'message':'Sorry police cannot add a review.','success':False}));
+				user=User_profile.objects.get(user=request.user)
+			except User_profile.DoesNotExist:
+				return HttpResponse(json.dumps({'message':'Please <a href="/fill_details">fill your details</a> first.','success':False}))
+			if user.isPolice==1:
+				return HttpResponse(json.dumps({'message':'Police can review a police station.'}))
+			try:
+				civilian=Civilian.find()
+			except: 
+				return HttpResponse(json.dumps({'message':'Sir, please enter your details for <a href="/civilian/'+request.user.username+'/edit">verification</a>'}))
 			x=Review(station=station,civilian=civilian,description=request.POST.get('description'),date_posted=timezone.now())
 			x.save()
 			print x
