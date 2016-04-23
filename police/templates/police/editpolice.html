@@ -9,7 +9,14 @@
 </style>
 {% endblock %}
 {% block content %}
-<h1>{{error}}</h1>
+{% if error %}
+<div class="ui negative message">
+  <i class="close icon"></i>
+  <div class="header">
+    {{error}}
+  </div>
+</div>
+{% endif %}
 <div class="ui container">
 <h1>Edit details for {{user.username}}</h1>
 <form method="POST" class="post-form">

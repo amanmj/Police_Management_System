@@ -19,7 +19,7 @@
     {% block topbar %}
     <div id="navbar" class="ui ab top fixed segment menu">
       <div class="item" id="titleNavbar">
-        POLICE MANAGEMENT SYSTEM
+        <a href="/" style="color:#252525;">POLICE MANAGEMENT SYSTEM</a>
       </div>
       <div class="item">
       </div>
@@ -31,11 +31,14 @@
           <div class="menu">
             <a class="item" href="/login">Profile</a>
             <a class="item logout" href="/logout  ">Logout</a>
-            <a href="/contact" class="item contact">Contact Us</a>
           </div>
         </div>
       {% else %}
-        <a class="item right focus" id="signIn" href="/login">Sign in</a>
+        <div class="item right focus">
+        <a class="item right" id="signIn" href="/login">Sign in</a>
+        Or <a class="item" id="signIn" href="/signup">Sign up</a>
+          
+        </div>
       {% endif %}
     </div>
 

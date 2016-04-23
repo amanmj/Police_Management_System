@@ -1,6 +1,24 @@
 {% extends 'police/partials/layout.html' %}
+{% block style_block %}
+<style type="text/css">
+    .post-form label{
+        width:100px;
+        display:inline-block;
+        font-weight:600;
+    }
+</style>
+{% endblock %}
 {% block content %}
-<h1>{{error}}</h1>
+{% if error %}
+<div class="ui negative message">
+  <i class="close icon"></i>
+  <div class="header">
+    {{error}}
+  </div>
+</div>
+{% endif %}
+<div class="ui container">
+	
 <h1>Edit details for {{user.username}}</h1>
 
 
@@ -23,7 +41,7 @@
 
 <button type="submit">Save Changes</button>
 </form>
-
+</div>	
 {% endblock %}
 
 {% block js_footer %}
