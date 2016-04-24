@@ -365,7 +365,7 @@ def civiliandetail(request,username):
 			address=Address.objects.get(user=requested_user[0])
 			criminal=Criminal_Record.objects.filter(user=requested_user[0])
 			form=Criminal_Record_form()
-			return render(request,'police/civiliandetail.html',{'criminal':criminal,'civilian':query1[0],'address':address,'userprofile':userprofile,'user':requested_user[0]})
+			return render(request,'police/civiliandetail.html',{'criminal':criminal,'civilian':query1[0],'address':address,'userprofile':userprofile,'req_user':requested_user[0]})
 		else:
 			messages.error(request, 'no such user found')
 			return redirect('/police/'+request.user.username)

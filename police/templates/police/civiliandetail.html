@@ -9,8 +9,8 @@
 {% endif %}
 <div class="{% if civilian.isCriminal%} twelve {% else %} sixteen {% endif %}wide column">
 	<h3>{{error}}</h3>
-	<h1>Civilian: <span class="ui label{% if civilian.isCriminal%} red {% endif %}" style="font-size:18px;border-radius:1px">{{user.first_name}} {{user.last_name}}</span>{% if not civilian.isCriminal %}<button class="ui ab button teal" onclick="show()" id="but">Assign Crime</button>{% endif %}</h1>
-	<b>Email:</b> {{user.email}}<br>
+	<h1>Civilian: <span class="ui label{% if civilian.isCriminal%} red {% endif %}" style="font-size:18px;border-radius:1px">{{req_user.first_name}} {{req_user.last_name}}</span>{% if not civilian.isCriminal %}<button class="ui ab button teal" onclick="show()" id="but">Assign Crime</button>{% endif %}</h1>
+	<b>Email:</b> {{req_user.email}}<br>
 	<b>Phone:</b> {{userprofile.phone_no}}<br>
 	<b>Age:</b> {{userprofile.age}}<br>
 	<b>Gender:</b> {{userprofile.gender}}
