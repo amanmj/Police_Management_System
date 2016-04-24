@@ -433,10 +433,11 @@ def addReview(request,slug):
 			if user.isPolice==1:
 				return HttpResponse(json.dumps({'message':'Police can review a police station.'}))
 			try:
-				civilian=Civilian.find()
+				requested_user=User.objects.filter(username=request.user.username)
+				civilian=Civilian.objects.filter(user=requested_user[0])
 			except: 
 				return HttpResponse(json.dumps({'message':'Sir, please enter your details for <a href="/civilian/'+request.user.username+'/edit">verification</a>'}))
-			x=Review(station=station,civilian=civilian,description=request.POST.get('description'),date_posted=timezone.now())
+			x=Review(station=station,civilian=civilian[0],description=request.POST.get('description'),date_posted=timezone.now())
 			x.save()
 			print x
 			return HttpResponse(json.dumps({'message':'Successfully posted the review.','review':{'description':x.description,'user':request.user.username},'success':True}));
