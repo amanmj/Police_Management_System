@@ -11,17 +11,61 @@
 	    <option value="civilian">Civilian</option>
 	</select>
 
-<p><label for="id_phone_no">Phone no:</label><input id="id_phone_no" name="phone_no" type="text" /></p>
-<p><label for="id_age">Age:</label><input id="id_age" name="age" type="number" /></p>
+	<div class="field">
+	    <label>Phone number</label>
+	    <div class="ui input">
+	        <input type="text" name="phone_no" placeholder="Your phone number">
+	    </div>
+	</div>
+	<div class="field">
+	    <label>Age</label>
+	    <div class="ui input">
+	        <input type="number" name="age" placeholder="Your age">
+	    </div>
+	</div>
+<!-- <p><label for="id_phone_no">Phone no:</label><div class="ui input"><input id="id_phone_no" name="phone_no" type="text" /></div></p> -->
+<!-- <p><label for="id_age">Age:</label><div class="ui input"><input id="id_age" name="age" type="number" /></div></p> -->
 <select name="gender" id="gender">
     <option value="Male">Male</option>
     <option value="Female">Female</option>
     <option value="Other">Other</option>
     </select>
   <button class="ui ab button teal" style="margin-top:10px;" type="submit">Submit</button>
+  <div class="ui error message"></div>
 </form> 
 <div>
 {{error}}
+</div>
+</div>
 {% endblock %}
-</div>
-</div>
+
+{% block js_footer %}
+<script type="text/javascript">
+	$(document).ready(function(){
+	    $('.ui.form')
+	      .form({
+	        fields: {
+	          phone_no:{
+	            identifier:'phone_no',
+	            rules:[
+	            {
+	              type:'exactLength[10]',
+	              prompt:'Please enter a valid phone number'
+	            }
+	            ]
+	          },
+	          age:{
+	            identifier:'age',
+	            rules:[
+	            {
+	                type:'empty',
+	                prompt:'Please tell us your age'
+	            }
+	            ]
+	          }
+	        }
+	      });
+
+	});
+</script>
+{% endblock %}

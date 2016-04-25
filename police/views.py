@@ -467,7 +467,8 @@ def searchPoliceStations(request):
 		if(location=='all'):
 			stations=Station.objects.all()
 		else:
-			stations=Station.objects.filter(locality__icontains=location)
+			stations=Station.objects.filter(locality__icontains=location) | Station.objects.filter(city__icontains=location) | Station.objects.filter(state__icontains=location)
+
 		if stations.exists():
 			stations=list(stations.values())
 			return HttpResponse(json.dumps({'stations':stations,'found':True}))
