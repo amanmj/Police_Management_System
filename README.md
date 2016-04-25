@@ -10,4 +10,4 @@
 6. open ```localhost:8000/admin``` and add a few police stations from there and log out.
 7. now open the home page and browse ```localhost:8000```
 
-![alt tag](https://goo.gl/C5zJca)
+![Alt Text](https://github.com/amanmj/Police_Management_System/blob/master/screenshots/Screenshot%20from%202016-04-24%2000-50-43.png)
