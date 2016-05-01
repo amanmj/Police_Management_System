@@ -10,4 +10,18 @@
 6. open ```localhost:8000/admin``` and add a few police stations from there and log out.
 7. now open the home page and browse ```localhost:8000```
 
+<br>
+##Browse through a list of police stations
 ![Alt Text](https://github.com/amanmj/Police_Management_System/blob/master/screenshots/Screenshot%20from%202016-04-24%2000-50-43.png)
+<br>
+##Review police stations when logged in from a civilian's account
+![Alt Text](https://github.com/amanmj/Police_Management_System/blob/master/screenshots/Screenshot%20from%202016-04-24%2001-06-40.png)
+<br>
+##Complaint against a policeman
+![Alt Text](https://github.com/amanmj/Police_Management_System/blob/master/screenshots/Screenshot%20from%202016-04-24%2001-07-33.png)
+
+##Edit your personal details
+![Alt Text](https://github.com/amanmj/Police_Management_System/blob/master/screenshots/Screenshot%20from%202016-04-24%2001-10-33.png)
+
+##View a civilian's details, make him a criminal, view user/criminal database through policeman's account. Also view your junior policeman's account!
+![Alt Text](https://github.com/amanmj/Police_Management_System/blob/master/screenshots/Screenshot%20from%202016-04-24%2001-11-27.png)
